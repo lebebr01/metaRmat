@@ -5,7 +5,7 @@
 #' @param data
 #'
 #' @export
-OS <- function(data) {
+olkin_siotani <- function(data) {
 
   nvar <- ncol(data)
 

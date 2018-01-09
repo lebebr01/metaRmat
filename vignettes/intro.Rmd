@@ -30,6 +30,6 @@ becker09_list <- df_to_corr(becker09,
 
 ## Calculate OS
 ```{r os}
-OS(becker09_list[[1]])
+olkin_siotani(becker09_list[[1]])
 ```
 
