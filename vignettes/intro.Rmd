@@ -1,0 +1,31 @@
+---
+title: "Introduction to corrMeta"
+author: "Vignette Author"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r readindata}
+becker09 <- read.csv(paste0(system.file('raw_data', package = 'corrMeta'), '/Becker09.csv'))
+```
+
+```{r convert_data}
+library(corrMeta)
+becker09_list <- df_to_corr(becker09, 
+                            variables = c('Cognitive_Performance', 'Somatic_Performance',
+                                   'Selfconfidence_Performance', 'Cognitive_Somatic',
+                                   'Cognitive_Selfconfidence', 'Somatic_Selfconfidence'))
+```
+
+
