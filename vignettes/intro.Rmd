@@ -28,4 +28,8 @@ becker09_list <- df_to_corr(becker09,
                                    'Cognitive_Selfconfidence', 'Somatic_Selfconfidence'))
 ```
 
+## Calculate OS
+```{r os}
+OS(becker09_list[[1]])
+```
 
