@@ -30,6 +30,8 @@ becker09_list <- df_to_corr(becker09,
 
 ## Calculate OS
 ```{r os}
-olkin_siotani(becker09_list[[1]])
+olkin_siotani(becker09_list[[1]], becker09$N[1], type = 'simple')
+olkin_siotani(becker09_list[[1]], becker09$N[1], type = 'average')
+olkin_siotani(becker09_list[[1]], becker09$N[1], type = 'weighted')
 ```
 

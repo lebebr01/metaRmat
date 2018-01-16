@@ -4,10 +4,12 @@
 \alias{olkin_siotani}
 \title{Olkin & Siotani 1976 variance-covariance matrix}
 \usage{
-olkin_siotani(data)
+olkin_siotani(data, n, type = c("average", "weighted", "simple"))
 }
 \arguments{
-\item{data}{}
+\item{n}{Sample size}
+
+\item{type}{}
 }
 \description{
 Description here
