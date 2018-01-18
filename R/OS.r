@@ -1,17 +1,17 @@
-#' Olkin & Siotani 1976 variance-covariance matrix
+#' Olkin & Siotani 1976 variance-covariance numerator
 #'
 #' Description here
 #'
 #' @param data
 #'
 #' @export
-olkin_siotani <- function(data) {
+OS <- function(data) {
 
   nvar <- ncol(data)
 
   pp <- nvar * (nvar - 1) / 2 #number of correlations
 
-  covmtx<-matrix(0, nrow = pp, ncol = pp)
+  covmtx <- matrix(0, nrow = pp, ncol = pp)
 
   x <- array(0, dim = c(nvar, nvar, nvar, nvar))
   y <- array(0, dim = c(nvar, nvar, nvar, nvar))
@@ -67,3 +67,72 @@ olkin_siotani <- function(data) {
   }
   covmt
 }
+
+
+#' Olkin & Siotani 1976 variance-covariance matrix
+#'
+#' Description here
+#'
+#' @param data
+#' @param n Sample size
+#' @param type
+#'
+#' @export
+olkin_siotani <- function(data, n, type = c('average','weighted', 'simple')) {
+
+  if(type == 'average') {
+    numerator <- average_OS(data)
+  } else {
+    if(type == 'weighted') {
+      numerator <- weighted_OS(data, n)
+    } else {
+      numerator <- OS(data)
+    }
+  }
+
+  mapply("/", numerator, n, SIMPLIFY = FALSE)
+
+}
+
+
+average_OS <- function(data) {
+
+  data_nomissing <- lapply(data, function(x) replace(x, is.na(x), 0)) # replacing NA by 0
+  data_average <- Reduce('+', data_nomissing) / length(data_nomissing)
+
+  num_elements <- diag(data_average) * length(data_nomissing) # number of elements in each mean
+
+  diag(data_average) <- 1
+
+  numerator <- OS(data_average)
+
+  do.call("list", rep(list(numerator), length(data_nomissing)))
+}
+
+
+weighted_OS <- function(data, n) {
+
+  data_nomissing <- lapply(data, function(x) replace(x, is.na(x), 0)) # replacing NA by 0
+
+  data_list <- lapply(data_nomissing, corpcor::sm2vec)  # vectorize
+  data_list_n <- mapply("*", data_list, n, SIMPLIFY = FALSE)  # multiply by n
+  data_sum <- Reduce("+", data_list_n)
+
+  data_withmissing <- lapply(data, corpcor::sm2vec)  # vectorize corr matrix with NA
+  missing_loc <-  lapply(data_withmissing, is.na)     # identify elements with NA
+  missing_sampsize <- lapply(seq_along(missing_loc), function(i)
+    ifelse(missing_loc[[i]] == FALSE, n[[i]], NA)) # replace FALSE by sample size
+
+  sample_size <-  colSums(do.call(rbind, missing_sampsize), na.rm = TRUE)      # sum columns across list
+
+  data_average <- data_sum / sample_size
+
+  data_matrix <- corpcor::vec2sm(data_average, diag = FALSE, order = NULL)
+  diag(data_matrix) <- 1
+
+  numerator <- OS(data_matrix)                               # OS for one
+
+  do.call("list", rep(list(numerator), length(data_nomissing)))
+
+}
+
