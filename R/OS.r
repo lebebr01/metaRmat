@@ -86,11 +86,17 @@ olkin_siotani <- function(data, n, type = c('average','weighted', 'simple')) {
     if(type == 'weighted') {
       numerator <- weighted_OS(data, n)
     } else {
-      numerator <- OS(data)
+      numerator <- simple_OS(data)
     }
   }
 
   mapply("/", numerator, n, SIMPLIFY = FALSE)
+
+}
+
+simple_OS <- function(data) {
+
+  lapply(data, OS)
 
 }
 
