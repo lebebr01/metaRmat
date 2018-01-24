@@ -3,4 +3,7 @@
 export(OS)
 export(df_to_corr)
 export(olkin_siotani)
+export(prep_data)
+importFrom(Matrix,bdiag)
+importFrom(corpcor,sm2vec)
 importFrom(corpcor,vec2sm)
