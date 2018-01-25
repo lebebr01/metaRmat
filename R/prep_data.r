@@ -38,8 +38,10 @@ prep_data <- function(data, n, type = c('average','weighted', 'simple'),
     study <- study[miss_loc]
   }
 
-  list(yi = data_vector,
-       V = variance_covariance,
-       outcome = outcome,
-       study = study)
+  list(data = data.frame(yi = data_vector,
+                         outcome = outcome,
+                         study = study
+  ),
+  V = variance_covariance
+  )
 }
