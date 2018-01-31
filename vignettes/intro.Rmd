@@ -37,10 +37,11 @@ olkin_siotani(becker09_list, becker09$N, type = 'weighted')
 
 # Master Prep Data Function
 ```{r prep_data}
-prep_data(becker09, becker09$N, type = 'simple', 
+input_metafor <- prep_data(becker09, becker09$N, type = 'simple', 
           variable_names = c('Cognitive_Performance', 'Somatic_Performance',
                              'Selfconfidence_Performance', 'Cognitive_Somatic',
-                             'Cognitive_Selfconfidence', 'Somatic_Selfconfidence'))
+                             'Cognitive_Selfconfidence',
+                             'Somatic_Selfconfidence'))
 ```
 
 
