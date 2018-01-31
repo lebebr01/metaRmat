@@ -42,6 +42,12 @@ input_metafor <- prep_data(becker09, becker09$N, type = 'simple',
                              'Selfconfidence_Performance', 'Cognitive_Somatic',
                              'Cognitive_Selfconfidence',
                              'Somatic_Selfconfidence'))
+fit_model(data = input_metafor$data, effect_size = 'yi', 
+          var_cor = input_metafor$V, moderators = ~ factor(outcome), 
+          random = NULL)
+fit_model(data = input_metafor$data, effect_size = 'yi', 
+          var_cor = input_metafor$V, moderators = ~ factor(outcome), 
+          random = ~ factor(outcome) | factor(study))
 ```
 
 
