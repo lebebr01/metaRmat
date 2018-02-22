@@ -16,19 +16,68 @@
 #
 #   R <- dat[[1]]
 #   n <- unlist(dat[[2]])
+# #------------------------------------------------------------------
+# # Compute O & S for each study indicidually
+# #------------------------------------------------------------------
+#      OL <- lapply(R,OS)
+#    OL <- mapply("/",OL,n,SIMPLIFY = FALSE)
+# #------------------------------------------------------------------
+# # Compute  mean O & S
+# #------------------------------------------------------------------
+# # first replace NA by zeros
+#     RR <- R                           # redifine list
+#     RR <- lapply(RR,function(x) replace(x,is.na(x),0)) # replacing NA by 0
+#     Rm <- Reduce('+', RR)/length(RR)
+#        nElem <- diag(Rm) * length(RR) # number of elements in each mean
+#           diag(Rm) <- 1
+#      Rm1 <- OS(Rm)
+#      Rm2 <-  do.call("list", rep(list(Rm1), length(RR)))
+#      OLm <- mapply("/",Rm2 ,n,SIMPLIFY = FALSE)
+# #---------------------------------------------------------------------
+# # Compute sample size weighted mean O & S
+# #------------------------------------------------------------------
+#     Rw1 <- lapply(RR, sm2vec)  # vectorize
+#     Rw2 <- mapply("*",Rw1,n,SIMPLIFY = FALSE)  # multiply by n
+#     Rw3 <- Reduce("+", Rw2)
+#     Rw1b <- lapply(R, sm2vec)  # vectorize corr matrix with NA
+#     a <-  lapply(Rw1b, is.na)                                           # identify elements with NA
+#     a2 <- lapply(seq_along(a), function(i) ifelse(a[[i]] == FALSE, n[[i]], NA)) # replace FALSE by sample size
+#     nS <-  colSums(do.call(rbind, a2), na.rm = TRUE)                    # sum columns across list
+#
+#
+#        # nS <- Reduce('+', n)                       # sum all n
+#    # Rw4 <- Rw3/nS                         # create an indicator for missing values to remove sampe size
+#    # res <- c(0,  0, 16, 45, 16 + 45, 16 + 45)
+#   #  nS_2 <- nS - res
+#   #  Rw4 <- Rw3/nS_2
+#     Rw4 <- Rw3/nS
+#     Rw5 <- vec2sm(Rw4, diag = FALSE, order = NULL)
+#         diag(Rw5) <- 1
+#       OSw <- OS(Rw5)                               # OS for one
+#     OSw1 <-  do.call("list", rep(list(OSw), length(RR)))
+#     OLw <- mapply("/",OSw1 ,n,SIMPLIFY = FALSE)
 # #-------------------------------------------------------------------
 # # Analyses
 # #------------------------------------------------------------------
-#   rr <- lapply(R,  corpcor::sm2vec)  # vectorize
+#   rr <- lapply(R,  sm2vec)  # vectorize
 #   r <-   matrix(unlist(rr)) # vector effect sizes
+#  # miss_ind <- 1*(is.na(r))  # creats indicator variable for missing data
 #   miss_loc <- -1 * which(is.na(r)) #creats indicator variable for missing data
-#   # S <- Matrix::bdiag(OL)            # var_cov within
-#   #  S <- Matrix::bdiag(OLm)          # var-cov mean
-#    S <- Matrix::bdiag(OLw)          # var-cov sample size weighted mean
+#   # S <- bdiag(OL)            # var_cov within
+#   #  S <- bdiag(OLm)          # var-cov mean
+#    S <- bdiag(OLw)          # var-cov sample size weighted mean
 #   S <- as.matrix(S)
 # #-------------------------------------------------------------------
 # # Removing manually missing values
 # #-------------------------------------------------------------------
+#   # r <- r[c(-15, -17, -18, -28, -29, -30)]                  # Need to work this to make it outomatic
+# #  r <- na.omit(r)
+# #   S <- S[-c(15, 17, 18, 28, 29, 30), -c(15, 17, 18, 28, 29, 30)]
+# # outcome <- rep(1:length(rr[[1]]), length(R))
+# #  outcome <- as.factor(outcome)
+# #  study <- sort(rep(1:length(R),length(rr[[1]])))
+# #  outcome <- outcome[c(-15, -17, -18, -28, -29, -30)]
+# #  study <- study[c(-15, -17, -18, -28, -29, -30)]
 #  r <- r[miss_loc]                  # Need to work this to make it outomatic
 #   # r <- na.omit(r)
 #    S <- S[c(miss_loc), c(miss_loc)]
@@ -40,38 +89,38 @@
 # #-------------------------------------------------------------------
 # # Random Effects Results
 # #-------------------------------------------------------------------
-#   res.mR <- metafor::rma.mv(r,S, mods = ~ factor(outcome) -1 , random = ~ factor(outcome) | factor(study),
+#   res.mR <- rma.mv(r,S, mods = ~ factor(outcome) -1 , random = ~ factor(outcome) | factor(study),
 #                    struct="UN", method="REML")
 #  summary(res.mR)
 #
 #
 #
 #  # with intercept for Q Model
-#  res.mR_Qb <- metafor::rma.mv(r,S, mods = ~ factor(outcome) , random = ~ factor(outcome)  | factor(study),
+#  res.mR_Qb <- rma.mv(r,S, mods = ~ factor(outcome) , random = ~ factor(outcome)  | factor(study),
 #                    struct="UN", method="REML")
 # # summary(res.mR_Qb)
 # #-------------------------------------------------------------------
 # # Fixed Effects Results
 # #-------------------------------------------------------------------
-#   res.mF <- metafor::rma.mv(r,S, mods = ~ factor(outcome) - 1)
+#   res.mF <- rma.mv(r,S, mods = ~ factor(outcome) - 1)
 #   # summary(res.mF)
 # #-------------------------------------------------------------------
 # # Extracting elements from output
 # #-------------------------------------------------------------------
 #     bf <- res.mF$b
 #     rvecf <- as.matrix(bf)
-#     Bf <- corpcor::vec2sm(rvecf, diag = FALSE, order = NULL)
+#     Bf <- vec2sm(rvecf, diag = FALSE, order = NULL)
 #     diag <- 1
 #     diag(Bf) <- diag
 #     Vf <-  res.mF$vb
-#     Bf   # fixed- mean corr # !!can be list!!
+#     Bf   # fixed- mean corr
 #     Vf   # var-cov fixed mean corr
 # #-------------------------------------------------------------------
 # # Extracting elements from  Random-effect output
 # #-------------------------------------------------------------------
 #     br <- res.mR$b
 #     rvecr <- as.matrix(br)
-#     Br <- corpcor::vec2sm(rvecr, diag = FALSE, order = NULL)
+#     Br <- vec2sm(rvecr, diag = FALSE, order = NULL)
 #     diag <- 1
 #     diag(Br) <- diag
 #     Vr <-  res.mR$vb
@@ -85,7 +134,7 @@
 #  #------------------
 #  # tau matrix
 #  #------------------
-#   rho <-  corpcor::vec2sm(Rho, diag = FALSE)
+#   rho <-  vec2sm(Rho, diag = FALSE)
 #   diag(rho) <- diag
 #   tdiag <- diag(sqrt(Tau2))
 #   taumat <- tdiag %*% rho %*% tdiag

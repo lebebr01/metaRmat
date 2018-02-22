@@ -37,10 +37,23 @@ olkin_siotani(becker09_list, becker09$N, type = 'weighted')
 
 # Master Prep Data Function
 ```{r prep_data}
-prep_data(becker09, becker09$N, type = 'simple', 
+input_metafor <- prep_data(becker09, becker09$N, type = 'simple', 
           variable_names = c('Cognitive_Performance', 'Somatic_Performance',
                              'Selfconfidence_Performance', 'Cognitive_Somatic',
-                             'Cognitive_Selfconfidence', 'Somatic_Selfconfidence'))
+                             'Cognitive_Selfconfidence',
+                             'Somatic_Selfconfidence'))
+fixed_model <- fit_model(data = input_metafor$data, effect_size = 'yi', 
+          var_cor = input_metafor$V, moderators = ~ factor(outcome), 
+          random = NULL)
+random_model <- fit_model(data = input_metafor$data, effect_size = 'yi', 
+          var_cor = input_metafor$V, moderators = ~ factor(outcome), 
+          random = ~ factor(outcome) | factor(study))
+```
+
+# Extract model data
+```{r extract_model_data}
+extract_model(fixed_model)
+extract_model(random_model)
 ```
 
 
