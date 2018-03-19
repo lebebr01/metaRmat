@@ -18,9 +18,10 @@ extract_model <- function(model) {
 
   tau2 <-  model[['tau2']]
   rho <-  model[['rho']]
-  tau_mat <- tau_matrix(rho, tau2)
+  # tau_mat <- tau_matrix(rho, tau2)
 
   list(beta_matrix = B,
        var_matrix = V,
-       tau_matrix = tau_mat)
+       tau = tau2,
+       rho = rho)
 }

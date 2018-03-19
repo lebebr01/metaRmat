@@ -1,4 +1,4 @@
-ID,N,Team,Cognitive_Performance,Somatic_Performance,Selfconfidence_Performance,Cognitive_Somatic,Cognitive_Selfconfidence,Somatic_Selfconfidence
+ID,N,Team,Cognitive_Performance,Somatic_Performance,Selfconfidence_Performance,Somatic_Cognitive,Selfconfidence_Cognitive,Selfconfidence_Somatic
 1,142,I,-0.55,-0.48,0.66,0.47,-0.38,-0.46
 3,37,I,0.53,-0.12,0.03,0.52,-0.48,-0.4
 6,16,T,0.44,0.46,NA,0.67,NA,NA
