@@ -24,8 +24,8 @@ becker09 <- read.csv(paste0(system.file('raw_data', package = 'corrMeta'), '/Bec
 library(corrMeta)
 becker09_list <- df_to_corr(becker09, 
                             variables = c('Cognitive_Performance', 'Somatic_Performance',
-                                   'Selfconfidence_Performance', 'Cognitive_Somatic',
-                                   'Cognitive_Selfconfidence', 'Somatic_Selfconfidence'))
+                                   'Selfconfidence_Performance', 'Somatic_Cognitive',
+                                   'Selfconfidence_Cognitive', 'Selfconfidence_Somatic'))
 ```
 
 ## Calculate OS
@@ -44,10 +44,10 @@ input_metafor <- prep_data(becker09, becker09$N, type = 'simple',
                              'Somatic_Selfconfidence'))
 fixed_model <- fit_model(data = input_metafor$data, effect_size = 'yi', 
           var_cor = input_metafor$V, moderators = ~ factor(outcome), 
-          random = NULL)
+          random_params = NULL)
 random_model <- fit_model(data = input_metafor$data, effect_size = 'yi', 
           var_cor = input_metafor$V, moderators = ~ factor(outcome), 
-          random = ~ factor(outcome) | factor(study))
+          random_params = ~ factor(outcome) | factor(study))
 ```
 
 # Extract model data
