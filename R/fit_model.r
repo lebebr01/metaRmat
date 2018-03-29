@@ -37,3 +37,28 @@ fit_model <- function(data, effect_size, var_cor, weights = NULL,
   }
 
 }
+
+
+#' Path Model Function
+#'
+#' This function fits the path model and returns adjusted standard errors.
+#'
+#' @param model This is model syntax specified in the format by lavaan. See
+#'    \code{\link{sem}} for more details about model syntax.
+#' @param data A list that contains the correlation matrix for model fitting
+#'   and the variance matrix. This would most likely come from the
+#'   \code{\link{extract_model}} function.
+#' @param num_obs Number of observations
+#'
+#' @importFrom lavaan sem
+#'
+#' @export
+#'
+path_model <- function(model, data, num_obs) {
+
+  fitted_model <- lavaan::sem(model, sample.cov = data[['beta_matrix']],
+                              sample.nobs = num_obs)
+
+  fitted_model
+
+}

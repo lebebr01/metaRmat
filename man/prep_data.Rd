@@ -5,13 +5,21 @@
 \title{Prep Data for Metafor}
 \usage{
 prep_data(data, n, type = c("average", "weighted", "simple"),
-  missing = "remove", variable_names = NULL)
+  missing = "remove", variable_names = NULL, ID = NULL)
 }
 \arguments{
+\item{data}{Raw data input}
+
 \item{n}{Sample size}
+
+\item{type}{type of adjustment (olkin siotani)}
+
+\item{missing}{What to do with missing data}
 
 \item{variable_names}{An optional character vector specifying variable names
 of original data. This is mostly used to pass to \code{\link{df_to_corr}}.}
+
+\item{ID}{A variable name, as a character string, to use as names for the list elements.}
 }
 \description{
 Prep Data for Metafor

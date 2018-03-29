@@ -25,7 +25,8 @@ library(corrMeta)
 becker09_list <- df_to_corr(becker09, 
                             variables = c('Cognitive_Performance', 'Somatic_Performance',
                                    'Selfconfidence_Performance', 'Somatic_Cognitive',
-                                   'Selfconfidence_Cognitive', 'Selfconfidence_Somatic'))
+                                   'Selfconfidence_Cognitive', 'Selfconfidence_Somatic'),
+                            ID = 'ID')
 ```
 
 ## Calculate OS
@@ -39,9 +40,9 @@ olkin_siotani(becker09_list, becker09$N, type = 'weighted')
 ```{r prep_data}
 input_metafor <- prep_data(becker09, becker09$N, type = 'simple', 
           variable_names = c('Cognitive_Performance', 'Somatic_Performance',
-                             'Selfconfidence_Performance', 'Cognitive_Somatic',
-                             'Cognitive_Selfconfidence',
-                             'Somatic_Selfconfidence'))
+                                   'Selfconfidence_Performance', 'Somatic_Cognitive',
+                                   'Selfconfidence_Cognitive', 'Selfconfidence_Somatic'),
+          ID = 'ID')
 fixed_model <- fit_model(data = input_metafor$data, effect_size = 'yi', 
           var_cor = input_metafor$V, moderators = ~ factor(outcome), 
           random_params = NULL)
@@ -52,8 +53,28 @@ random_model <- fit_model(data = input_metafor$data, effect_size = 'yi',
 
 # Extract model data
 ```{r extract_model_data}
-extract_model(fixed_model)
-extract_model(random_model)
+model_out_fixed <- extract_model(fixed_model, 
+                                 variable_names = c('Cognitive_Performance', 'Somatic_Performance',
+                                   'Selfconfidence_Performance', 'Somatic_Cognitive',
+                                   'Selfconfidence_Cognitive', 'Selfconfidence_Somatic'))
+model_out_random <- extract_model(random_model, 
+                                  variable_names = c('Cognitive_Performance', 'Somatic_Performance',
+                                   'Selfconfidence_Performance', 'Somatic_Cognitive',
+                                   'Selfconfidence_Cognitive', 'Selfconfidence_Somatic'))
+```
+
+# Fit model with lavaan
+```{r model_lavaan}
+model <- "## Regression paths
+          Performance ~ Cognitive + Somatic + Selfconfidence
+          Selfconfidence ~ Cognitive + Somatic
+          ## Fix the variances of Cog and SO at 1
+          Cognitive ~~ 1*Cognitive
+          Somatic ~~ 1*Somatic
+          Cognitive ~~ Somatic"
+
+lavaan_output <- path_model(model, data = model_out_random, num_obs = 600)
+summary(lavaan_output)
 ```
 
 
