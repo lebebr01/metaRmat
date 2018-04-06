@@ -4,17 +4,19 @@
 \alias{path_model}
 \title{Path Model Function}
 \usage{
-path_model(model, data, num_obs)
+path_model(data, model, num_obs, adjust_se = TRUE)
 }
 \arguments{
-\item{model}{This is model syntax specified in the format by lavaan. See
-\code{\link{sem}} for more details about model syntax.}
-
 \item{data}{A list that contains the correlation matrix for model fitting
 and the variance matrix. This would most likely come from the
 \code{\link{extract_model}} function.}
 
+\item{model}{This is model syntax specified in the format by lavaan. See
+\code{\link{sem}} for more details about model syntax.}
+
 \item{num_obs}{Number of observations}
+
+\item{adjust_se}{Adjust the standard errors to reflect the ...}
 }
 \description{
 This function fits the path model and returns adjusted standard errors.

@@ -22,17 +22,20 @@ fit_model <- function(data, effect_size, var_cor, weights = NULL,
                       structure = 'CS', test = 't',
                       intercept = FALSE, estimation_method = 'REML', ...){
 
-  effect_size <- data[[effect_size]]
+  raw_data <- data[['data']]
+  effect_size <- raw_data[[effect_size]]
+
+  variance_covariance <- data[[var_cor]]
 
   if(is.null(random_params)) {
-    metafor::rma.mv(yi = effect_size, V = var_cor, W = weights,
-                    mods = moderators, data = data,
+    metafor::rma.mv(yi = effect_size, V = variance_covariance, W = weights,
+                    mods = moderators, data = raw_data,
                     struct = structure, intercept = intercept,
                     test = test, method = estimation_method, ...)
   } else {
-    metafor::rma.mv(yi = effect_size, V = var_cor, W = weights,
+    metafor::rma.mv(yi = effect_size, V = variance_covariance, W = weights,
                     mods = moderators, random = random_params,
-                    data = data, struct = structure, intercept = intercept,
+                    data = raw_data, struct = structure, intercept = intercept,
                     test = test, method = estimation_method, ...)
   }
 
@@ -43,22 +46,37 @@ fit_model <- function(data, effect_size, var_cor, weights = NULL,
 #'
 #' This function fits the path model and returns adjusted standard errors.
 #'
-#' @param model This is model syntax specified in the format by lavaan. See
-#'    \code{\link{sem}} for more details about model syntax.
 #' @param data A list that contains the correlation matrix for model fitting
 #'   and the variance matrix. This would most likely come from the
 #'   \code{\link{extract_model}} function.
+#' @param model This is model syntax specified in the format by lavaan. See
+#'    \code{\link{sem}} for more details about model syntax.
 #' @param num_obs Number of observations
+#' @param adjust_se Adjust the standard errors to reflect the ...
 #'
-#' @importFrom lavaan sem
+#' @importFrom lavaan sem parTable fitmeasures
 #'
 #' @export
 #'
-path_model <- function(model, data, num_obs) {
+path_model <- function(data, model, num_obs, adjust_se = TRUE) {
 
   fitted_model <- lavaan::sem(model, sample.cov = data[['beta_matrix']],
                               sample.nobs = num_obs)
 
-  fitted_model
+  if(adjust_se) {
+    computed_se <- var_path(data[['beta_matrix']],
+                            data[['var_matrix']])
+  } else {
+    computed_se <- NULL
+  }
+
+  model_output <- list(parameter_estimates = lavaan::parTable(fitted_model),
+                       fit_measures = fitmeasures(fitted_model),
+                       computed_se = computed_se)
+
+  class(model_output) <- 'corrMeta'
+
+  model_output
+
 
 }
