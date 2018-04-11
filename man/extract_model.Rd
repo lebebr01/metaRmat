@@ -4,11 +4,14 @@
 \alias{extract_model}
 \title{Extract relavent model values from metafor}
 \usage{
-extract_model(model)
+extract_model(model, variable_names)
 }
 \arguments{
 \item{model}{A metafor model object, likely coming from
 \code{\link{fit_model}}.}
+
+\item{variable_names}{A character vector specifying variable names
+of original data. This should be the same as passed to \code{\link{prep_data}} function.}
 }
 \description{
 Extract relavent model values from metafor

@@ -4,13 +4,18 @@
 \alias{df_to_corr}
 \title{Helper function to read in data}
 \usage{
-df_to_corr(data, variables)
+df_to_corr(data, variables, ID = NULL)
 }
 \arguments{
 \item{data}{Data frame input used to convert to correlation matrices.}
 
 \item{variables}{A character vector of variable names representing the columns
 to convert to a pairwise correlation matrix.}
+
+\item{ID}{A variable name, as a character string, to use as names for the list elements.}
+}
+\value{
+A list of correlation matrices.
 }
 \description{
 Description here
