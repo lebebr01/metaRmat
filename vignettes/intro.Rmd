@@ -90,7 +90,7 @@ lavaan::summary(lavaan_output)
 
 # Functions work with pipe `%>%`
 ```{r pipe}
-library(tidyverse)
+library(dplyr)
 
 becker09 <- read.csv(paste0(system.file('raw_data', package = 'corrMeta'), '/Becker09.csv'))
 
@@ -119,7 +119,7 @@ prep_data(becker09, becker09$N, type = 'simple',
                                    'Selfconfidence_Cognitive',
                                    'Selfconfidence_Somatic')) %>%
   path_model(model = model, num_obs = 600) %>% 
-  lavaan::summary()
+  summary()
 
 ```
 
