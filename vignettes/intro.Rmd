@@ -41,7 +41,7 @@ olkin_siotani(becker09_list, becker09$N, type = 'weighted')
 
 # Master Prep Data Function
 ```{r prep_data}
-input_metafor <- prep_data(becker09, becker09$N, type = 'simple', 
+input_metafor <- prep_data(becker09, becker09$N, type = 'weighted', 
           variable_names = c('Cognitive_Performance', 'Somatic_Performance',
                              'Selfconfidence_Performance', 
                              'Somatic_Cognitive',
@@ -102,7 +102,7 @@ model <- "## Regression paths
           Somatic ~~ 1*Somatic
           Cognitive ~~ Somatic"
 
-prep_data(becker09, becker09$N, type = 'simple', 
+prep_data(becker09, becker09$N, type = 'average', 
           variable_names = c('Cognitive_Performance', 'Somatic_Performance',
                              'Selfconfidence_Performance', 
                              'Somatic_Cognitive',

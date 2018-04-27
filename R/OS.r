@@ -96,7 +96,9 @@ olkin_siotani <- function(data, n, type = c('average','weighted', 'simple')) {
 
 simple_OS <- function(data) {
 
-  lapply(data, OS)
+  data_nomissing <- lapply(data, function(x) replace(x, is.na(x), 0)) # replacing NA by 0
+
+  lapply(data_nomissing, OS)
 
 }
 
