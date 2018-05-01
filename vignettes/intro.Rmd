@@ -49,10 +49,10 @@ input_metafor <- prep_data(becker09, becker09$N, type = 'weighted',
                              'Selfconfidence_Somatic'),
           ID = 'ID')
 fixed_model <- fit_model(data = input_metafor, effect_size = 'yi', 
-          var_cor = 'V', moderators = ~ factor(outcome), 
+          var_cor = 'V', moderators = ~ -1 + factor(outcome), 
           random_params = NULL)
 random_model <- fit_model(data = input_metafor, effect_size = 'yi', 
-          var_cor = 'V', moderators = ~ factor(outcome), 
+          var_cor = 'V', moderators = ~ -1 + factor(outcome), 
           random_params = ~ factor(outcome) | factor(study))
 ```
 
@@ -102,7 +102,7 @@ model <- "## Regression paths
           Somatic ~~ 1*Somatic
           Cognitive ~~ Somatic"
 
-prep_data(becker09, becker09$N, type = 'average', 
+prep_data(becker09, becker09$N, type = 'weighted', 
           variable_names = c('Cognitive_Performance', 'Somatic_Performance',
                              'Selfconfidence_Performance', 
                              'Somatic_Cognitive',
@@ -110,8 +110,9 @@ prep_data(becker09, becker09$N, type = 'average',
                              'Selfconfidence_Somatic'),
           ID = 'ID') %>%
   fit_model(effect_size = 'yi', 
-          var_cor = 'V', moderators = ~ factor(outcome), 
-          random_params = ~ factor(outcome) | factor(study)) %>%
+          var_cor = 'V', moderators = ~ -1 + factor(outcome), 
+          random_params = ~ factor(outcome) | factor(study),
+          structure = 'UN') %>%
   extract_model(variable_names = c('Cognitive_Performance',
                                    'Somatic_Performance',
                                    'Selfconfidence_Performance', 
