@@ -21,7 +21,7 @@ becker09 <- read.csv(paste0(system.file('raw_data', package = 'corrMeta'), '/Bec
 ```
 
 ```{r convert_data}
-library(corrMeta)
+library(metaRmat)
 becker09_list <- df_to_corr(becker09, 
                             variables = c('Cognitive_Performance',
                                           'Somatic_Performance',
