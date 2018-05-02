@@ -4,8 +4,8 @@ Version: 0.0.2
 Authors@R: c(
    person("Brandon", "LeBeau", email = "lebebr01+metaRmat@gmail.com", role = c("aut", "cre"),
    comment = c(ORCID = "0000-0002-1265-8761")),
-   person("Ariel", "Aloe", email = "amaloe@gmail.com", role = c("aut")),
-   person("Betsy", "Becker", email = "bbecker@fsu.edu", role = c("ctb"))
+   person(c("Ariel", "M."), "Aloe", email = "amaloe@gmail.com", role = c("aut")),
+   person(c("Betsy", "Jane"), "Becker", email = "bbecker@fsu.edu", role = c("ctb"))
    )
 Description: What the package does (one paragraph).
 Depends: R (>= 3.4.1),
@@ -13,7 +13,7 @@ Depends: R (>= 3.4.1),
   corpcor,
   lavaan,
   metafor
-License: What license is it under?
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Suggests: knitr,
