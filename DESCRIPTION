@@ -8,7 +8,9 @@ Authors@R: c(
    person(c("Betsy", "Jane"), "Becker", email = "bbecker@fsu.edu", role = c("ctb"))
    )
 Description: What the package does (one paragraph).
-Depends: R (>= 3.4.1),
+Depends: 
+  R (>= 3.4.1)
+Imports:
   Matrix,  
   corpcor,
   lavaan,
