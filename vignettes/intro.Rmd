@@ -17,7 +17,8 @@ knitr::opts_chunk$set(
 ```
 
 ```{r readindata}
-becker09 <- read.csv(paste0(system.file('raw_data', package = 'metaRmat'), '/Becker09.csv'))
+becker09 <- read.csv(paste0(system.file('raw_data', package = 'metaRmat'),
+                            '/Becker09.csv'))
 ```
 
 ```{r convert_data}
@@ -92,7 +93,8 @@ lavaan::summary(lavaan_output)
 ```{r pipe}
 library(dplyr)
 
-becker09 <- read.csv(paste0(system.file('raw_data', package = 'corrMeta'), '/Becker09.csv'))
+becker09 <- read.csv(paste0(system.file('raw_data', package = 'metaRmat'),
+                            '/Becker09.csv'))
 
 model <- "## Regression paths
           Performance ~ Cognitive + Somatic + Selfconfidence
