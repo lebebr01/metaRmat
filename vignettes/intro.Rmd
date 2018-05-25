@@ -1,10 +1,10 @@
 ---
-title: "Introduction to corrMeta"
+title: "Introduction to metaRmat"
 author: "Vignette Author"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Introduction to metaRmat}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r readindata}
-becker09 <- read.csv(paste0(system.file('raw_data', package = 'corrMeta'), '/Becker09.csv'))
+becker09 <- read.csv(paste0(system.file('raw_data', package = 'metaRmat'), '/Becker09.csv'))
 ```
 
 ```{r convert_data}
