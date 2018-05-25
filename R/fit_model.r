@@ -119,13 +119,13 @@ path_model <- function(data, model, num_obs, adjust_se = TRUE) {
                        computed_var = computed_se,
                        model = model)
 
-  class(model_output) <- 'corrMeta'
+  class(model_output) <- 'metaRmat'
 
   model_output
 }
 
 #' @export
-summary.corrMeta <- function(object, fit_measures = TRUE) {
+summary.metaRmat <- function(object, fit_measures = TRUE) {
 
   fixed_coef <- subset(object[['parameter_estimates']],
                        subset = op == "~",
@@ -169,12 +169,12 @@ summary.corrMeta <- function(object, fit_measures = TRUE) {
                  variance = variances,
                  covariance = covariances,
                  fixed_coef = fixed_coef
-                 ), class = "summary.corrMeta")
+                 ), class = "summary.metaRmat")
 
 }
 
 #' @export
-print.summary.corrMeta <- function(object, digits = max(3, getOption("digits") - 3),
+print.summary.metaRmat <- function(object, digits = max(3, getOption("digits") - 3),
                                    signif.stars = getOption("show.signif.stars"),
                                    tidy = FALSE) {
 
