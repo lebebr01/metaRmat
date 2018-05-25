@@ -19,7 +19,7 @@
 #' @export
 fit_model <- function(data, effect_size, var_cor, weights = NULL,
                       moderators = NULL, random_params = NULL,
-                      structure = 'CS', test = 't',
+                      structure = 'UN', test = 't',
                       intercept = FALSE, estimation_method = 'REML', ...){
 
   raw_data <- data[['data']]
