@@ -24,6 +24,37 @@ of original data. This is mostly used to pass to \code{\link{df_to_corr}}.}
 
 \item{ID}{A variable name, as a character string, to use as names for the list elements.}
 
+\item{effect_size}{A vector of observed effect sizes to be modeled with
+metafor. See \code{\link{rma.mv}} for more details.}
+
+\item{var_cor}{Variance covariance matrix of sampling errors or sampling weights
+passed on to metafor. See \code{\link{rma.mv}} for more details.}
+
+\item{weights}{Optional weights matrix passed to metafor. Default is NULL.
+See \code{\link{rma.mv}} for more details.}
+
+\item{moderators}{Moderators (covariates, predictors) to be included in the
+analysis with metafor. Default is NULL meaning no predictors.
+See \code{\link{rma.mv}} for more details.}
+
+\item{random_params}{Specification of the random effect structure. This
+argument takes the form a single sided formula. Default is NULL which
+means a fixed effects model will be fitted with metafor.
+See \code{\link{rma.mv}} for more details.}
+
+\item{structure}{The variance structure passed to metafor. Default is "CS"
+which represents compound symmetry. See \code{\link{rma.mv}} for more
+details.}
+
+\item{test}{What type of test statistic should be used.
+Default is a t-statistic. See \code{\link{rma.mv}} for more details.}
+
+\item{intercept}{Should an intercept be included in the metafor model.
+See \code{\link{rma.mv}} for more details.}
+
+\item{estimation_method}{Estimation method to pass on to metafor. Default is
+"REML". See \code{\link{rma.mv}} for more details.}
+
 \item{model}{This is model syntax specified in the format by lavaan. See
 \code{\link{sem}} for more details about model syntax.}
 

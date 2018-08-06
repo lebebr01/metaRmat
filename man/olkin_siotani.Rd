@@ -7,9 +7,11 @@
 olkin_siotani(data, n, type = c("average", "weighted", "simple"))
 }
 \arguments{
+\item{data}{A correlation matrix or a list of correlation matrices.}
+
 \item{n}{Sample size}
 
-\item{type}{}
+\item{type}{The type of Olkin and Siotani correction to make.}
 }
 \description{
 Description here

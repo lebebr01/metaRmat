@@ -2,7 +2,7 @@
 #'
 #' Description here
 #'
-#' @param data
+#' @param data A correlation matrix.
 #'
 #' @export
 OS <- function(data) {
@@ -73,9 +73,9 @@ OS <- function(data) {
 #'
 #' Description here
 #'
-#' @param data
+#' @param data A correlation matrix or a list of correlation matrices.
 #' @param n Sample size
-#' @param type
+#' @param type The type of Olkin and Siotani correction to make.
 #'
 #' @export
 olkin_siotani <- function(data, n, type = c('average','weighted', 'simple')) {

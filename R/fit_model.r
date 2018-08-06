@@ -2,16 +2,29 @@
 #'
 #' This function is a wrapper that calls metafor to fit models.
 #'
-#' @param data
-#' @param effect_size
-#' @param var_cor
-#' @param weights
-#' @param moderators
-#' @param random_params
-#' @param structure
-#' @param test
-#' @param intercept
-#' @param estimation_method
+#' @param data Raw data input
+#' @param effect_size A vector of observed effect sizes to be modeled with
+#'   metafor. See \code{\link{rma.mv}} for more details.
+#' @param var_cor Variance covariance matrix of sampling errors or sampling weights
+#'   passed on to metafor. See \code{\link{rma.mv}} for more details.
+#' @param weights Optional weights matrix passed to metafor. Default is NULL.
+#'   See \code{\link{rma.mv}} for more details.
+#' @param moderators Moderators (covariates, predictors) to be included in the
+#'   analysis with metafor. Default is NULL meaning no predictors.
+#'   See \code{\link{rma.mv}} for more details.
+#' @param random_params Specification of the random effect structure. This
+#'   argument takes the form a single sided formula. Default is NULL which
+#'   means a fixed effects model will be fitted with metafor.
+#'   See \code{\link{rma.mv}} for more details.
+#' @param structure The variance structure passed to metafor. Default is "CS"
+#'   which represents compound symmetry. See \code{\link{rma.mv}} for more
+#'   details.
+#' @param test What type of test statistic should be used.
+#'   Default is a t-statistic. See \code{\link{rma.mv}} for more details.
+#' @param intercept Should an intercept be included in the metafor model.
+#'   See \code{\link{rma.mv}} for more details.
+#' @param estimation_method Estimation method to pass on to metafor. Default is
+#'   "REML". See \code{\link{rma.mv}} for more details.
 #' @param ... Additional parameters passed to metafor. See \code{\link{rma.mv}}
 #'   for more details.
 #' @importFrom metafor rma.mv

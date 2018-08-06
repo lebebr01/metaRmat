@@ -7,7 +7,9 @@
 var_path(mean_r, var_cov)
 }
 \arguments{
-\item{var_cov}{}
+\item{mean_r}{Average correlation matrices that are synthesized from metafor}
+
+\item{var_cov}{Variance covariance matrix coming from metafor.}
 }
 \description{
 Variance paths

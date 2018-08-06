@@ -7,7 +7,7 @@
 OS(data)
 }
 \arguments{
-\item{data}{}
+\item{data}{A correlation matrix.}
 }
 \description{
 Description here
