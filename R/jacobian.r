@@ -40,8 +40,8 @@ jacobian_stdslopes <- function(R) {
 
 #' Variance paths
 #'
-#' @param mean_r
-#' @param var_cov
+#' @param mean_r Average correlation matrices that are synthesized from metafor
+#' @param var_cov Variance covariance matrix coming from metafor.
 #'
 #' @export
 var_path <- function(mean_r, var_cov)  {

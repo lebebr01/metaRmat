@@ -123,6 +123,5 @@ prep_data(becker09, becker09$N, type = 'weighted',
                                    'Selfconfidence_Somatic')) %>%
   path_model(model = model, num_obs = 600) %>% 
   summary()
-
 ```
 

@@ -1,15 +1,31 @@
 #' Helper function to read in data
 #'
-#' Description here
+#' This function builds a list of correlation matrices from data that are in
+#' flat files where a correlation matrix is coded into a single row, a
+#' common format for coding correlation matrices.
 #'
 #' @param data Data frame input used to convert to correlation matrices.
 #' @param variables A character vector of variable names representing the columns
-#'  to convert to a pairwise correlation matrix.
+#'  to convert to a pairwise correlation matrix. Variable names take the following format:
+#'  "columnname_rowname" where the name prior to the underscore is the column name and the
+#'  name after the underscore is the row name.
 #' @param ID A variable name, as a character string, to use as names for the list elements.
 #'
 #' @return A list of correlation matrices.
 #'
 #' @importFrom corpcor vec2sm
+#'
+#' @examples
+#' becker09 <- read.csv(paste0(system.file('raw_data', package = 'metaRmat'),
+#'    '/Becker09.csv'))
+#' becker09_list <- df_to_corr(becker09,
+#'    variables = c('Cognitive_Performance',
+#'                  'Somatic_Performance',
+#'                  'Selfconfidence_Performance',
+#'                  'Somatic_Cognitive',
+#'                  'Selfconfidence_Cognitive',
+#'                  'Selfconfidence_Somatic'),
+#'     ID = 'ID')
 #'
 #' @export
 df_to_corr <- function(data, variables, ID = NULL) {
