@@ -20,7 +20,11 @@ corr_meta(data, n, type = c("average", "weighted", "simple"),
 \item{missing}{What to do with missing data}
 
 \item{variable_names}{An optional character vector specifying variable names
-of original data. This is mostly used to pass to \code{\link{df_to_corr}}.}
+ of original data. This is mostly used to pass to \code{\link{df_to_corr}}.
+ A character vector of variable names representing the columns
+to convert to a pairwise correlation matrix. Variable names take the following format:
+"columnname_rowname" where the name prior to the underscore is the column name and the
+name after the underscore is the row name.}
 
 \item{ID}{A variable name, as a character string, to use as names for the list elements.}
 
