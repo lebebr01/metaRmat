@@ -2,8 +2,7 @@
 #'
 #' @param R Matrix of estimates
 #'
-#' @importFrom Matrix sparseVector
-#' @importFrom Matrix sparseMatrix
+#' @importFrom Matrix sparseVector sparseMatrix
 #'
 #' @export
 jacobian_stdslopes <- function(R) {
@@ -35,6 +34,84 @@ jacobian_stdslopes <- function(R) {
     }
   }
   JacMat
+}
+
+#' Variance-covariance Matrix of Partials
+#'
+#' @param R Matrix of estimates
+#'
+#' @importFrom corpcor vec2sm
+#' @importFrom matrixcalc elimination.matrix svd.inverse vec
+#' @importFrom Matrix sparseMatrix
+#'
+#' @export
+jacobian_pcor <- function(R) {
+  n <- nrow(R)
+  Rinv <- solve(R)
+
+  nvp <- 0.5*n*(n-1)
+  Rgen <- corpcor::vec2sm(2*seq(nvp),diag=FALSE)
+  diag(Rgen) <- 1
+
+  ## Generates the Transition Matrix KcT ##
+  vecR1 <- matrixcalc::vec(Rgen)
+  vecRgen <- ifelse(vecR1==1, 0, vecR1)
+
+  if (length(Rgen)==4){
+    vecpRgen <- matrix(Rgen[2,1])
+  } else{
+    R1 <- Rgen[ ,-ncol(Rgen)]
+    R1 <- R1[-1, ]
+    vecpRgen <- matrixcalc::elimination.matrix(nrow(R1)) %*%
+      matrixcalc::vec(R1)
+  }
+
+  for (i in 1:length(vecpRgen)){
+    K1 <- ifelse(vecRgen == vecpRgen[i, 1], 1, 0)
+    if(i > 1) {
+      KcInvT <- cbind(KcInvT,K1)
+      } else {
+        KcInvT <- K1
+      }
+  }
+  KcT <- matrixcalc::svd.inverse(KcInvT)
+
+  # Creates diagonal matrix with entries equal to the square root of the
+  # reciprocals of the diagonal entries of Rinv
+
+  D1 <- diag(Rinv)
+  D <- diag(D1, n, n)
+  Dinv <- solve(D)
+  SqDinv <- Dinv^(1/2)
+
+  ## Creates the Jacobian matrix
+  ## k is the number of non-redundant correlations
+
+  k <- n * (n - 1) / 2
+  Jac <- matrix(nrow=k, ncol=k)
+
+  iter <- 1
+
+  for(i in 1:(n - 1)){
+    for(j in (i + 1):n){
+      A <- Matrix::sparseMatrix(c(i, j), c(j, i),
+                                    x=1, dims=c(n, n))
+      dR <- as.matrix(-Rinv %*% A %*% Rinv)
+      diagRinv <- diag(dR)
+      diagMatRinv <- diag(diagRinv, n, n)
+
+      dD <- -0.5*Dinv^(3/2) %*% diagMatRinv
+
+      dP <- dD %*% Rinv %*% SqDinv +
+        SqDinv %*% dR %*% SqDinv +
+        SqDinv %*% Rinv %*% dD
+
+      vecp_dP <- KcT %*% matrixcalc::vec(dP)
+      Jac[, iter] <- -vecp_dP
+      iter <- iter + 1
+    }
+  }
+  Jac
 }
 
 
