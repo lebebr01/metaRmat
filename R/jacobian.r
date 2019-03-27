@@ -127,7 +127,8 @@ var_path <- function(mean_r, var_cov, type = 'stdslopes')  {
 
   if(type == 'stdslopes') {
     A <- jacobian_stdslopes(mean_r) # Jacobian matrix
-  } else {
+  }
+  if(type == 'pcor') {
     A <- jacobian_pcor(mean_r) # Jacobian matrix
   }
 
