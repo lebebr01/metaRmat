@@ -4,12 +4,15 @@
 \alias{var_path}
 \title{Variance paths}
 \usage{
-var_path(mean_r, var_cov)
+var_path(mean_r, var_cov, type = "stdslopes")
 }
 \arguments{
 \item{mean_r}{Average correlation matrices that are synthesized from metafor}
 
 \item{var_cov}{Variance covariance matrix coming from metafor.}
+
+\item{type}{Type of Jacobian to return, default value is 'stdslopes' can also
+specify 'pcor' for the partial correlations.}
 }
 \description{
 Variance paths

@@ -119,10 +119,17 @@ jacobian_pcor <- function(R) {
 #'
 #' @param mean_r Average correlation matrices that are synthesized from metafor
 #' @param var_cov Variance covariance matrix coming from metafor.
+#' @param type Type of Jacobian to return, default value is 'stdslopes' can also
+#'   specify 'pcor' for the partial correlations.
 #'
 #' @export
-var_path <- function(mean_r, var_cov)  {
+var_path <- function(mean_r, var_cov, type = 'stdslopes')  {
 
-  A <- jacobian_stdslopes(mean_r) # Jacobian matrix
+  if(type == 'stdslopes') {
+    A <- jacobian_stdslopes(mean_r) # Jacobian matrix
+  } else {
+    A <- jacobian_pcor(mean_r) # Jacobian matrix
+  }
+
   A %*% var_cov %*% t(A)          # var-cov matrix
 }

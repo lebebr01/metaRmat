@@ -121,7 +121,8 @@ path_model <- function(data, model, num_obs, adjust_se = TRUE) {
 
     computed_se <- lapply(seq_along(data_list), function(xx)
       var_path(data_list[[xx]],
-               var_list[[xx]])
+               var_list[[xx]],
+               type = 'stdslopes')
     )
   } else {
     computed_se <- NULL
