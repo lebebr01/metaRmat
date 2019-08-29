@@ -66,15 +66,16 @@ fit_model <- function(data, effect_size, var_cor, weights = NULL,
 #'    \code{\link{sem}} for more details about model syntax.
 #' @param num_obs Number of observations
 #' @param adjust_se Adjust the standard errors to reflect the ...
+#' @param ... Additional options to pass to \code{\link{lavaan::sem}}.
 #'
 #' @importFrom lavaan sem parTable fitmeasures
 #'
 #' @export
 #'
-path_model <- function(data, model, num_obs, adjust_se = TRUE) {
+path_model <- function(data, model, num_obs, adjust_se = TRUE, ...) {
 
   fitted_model <- lavaan::sem(model, sample.cov = data[['beta_matrix']],
-                              sample.nobs = num_obs)
+                              sample.nobs = num_obs, ...)
 
   coefficients <- lavaan::parTable(fitted_model)
 

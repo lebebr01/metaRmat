@@ -4,7 +4,7 @@
 \alias{path_model}
 \title{Path Model Function}
 \usage{
-path_model(data, model, num_obs, adjust_se = TRUE)
+path_model(data, model, num_obs, adjust_se = TRUE, ...)
 }
 \arguments{
 \item{data}{A list that contains the correlation matrix for model fitting
@@ -17,6 +17,8 @@ and the variance matrix. This would most likely come from the
 \item{num_obs}{Number of observations}
 
 \item{adjust_se}{Adjust the standard errors to reflect the ...}
+
+\item{...}{Additional options to pass to \code{\link{lavaan::sem}}.}
 }
 \description{
 This function fits the path model and returns adjusted standard errors.
