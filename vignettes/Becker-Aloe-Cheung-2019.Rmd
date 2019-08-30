@@ -1,0 +1,279 @@
+---
+title: "Example Chapter Becker Aloe Cheung"
+author: "Becker Aloe Cheung"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Example Chapter Becker Aloe Cheung}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+  
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+We read the necessary packages as well as the data set for the example. Because for this example we are using only complete data we remove the the two studies with `NA` (i.e., Study 6 and Study 17).
+```{r readindata}
+library(metaRmat)
+library(metafor)
+library(corpcor)
+library(Matrix)
+library(matrixcalc)
+becker09 <- read.csv(paste0(system.file('raw_data', package = 'metaRmat'), '/Becker09.csv'))
+becker09 <- na.omit(becker09) # ommiting studies with NA
+```
+
+Next, we create a list, which will be imputed in our other functions.
+```{r convert_data}
+becker09_list <- df_to_corr(becker09, 
+                            variables = c('Cognitive_Performance',
+                                          'Somatic_Performance',
+                                          'Selfconfidence_Performance', 
+                                          'Somatic_Cognitive',
+                                          'Selfconfidence_Cognitive',
+                                          'Selfconfidence_Somatic'),
+                            ID = 'ID')
+```
+
+## Calculate OS
+There are currently three options for the variance-covariance matrix of the correlation matrix (i.e, simple, average, and weighted) for this example we selected the weighted option. 
+```{r os}
+#olkin_siotani(becker09_list, becker09$N, type = 'simple')
+#olkin_siotani(becker09_list, becker09$N, type = 'average')
+olkin_siotani(becker09_list, becker09$N, type = 'weighted')
+```
+
+# Master Prep Data Function
+The function below creates and organize elements that are then fitted internally into the `metafor` package. Below we fitted fixed and random-effects models and extracted some more detail information from objects that are not directly output by the functions.
+First, we see results under fixed-effect models.
+```{r prep_data}
+input_metafor <- prep_data(becker09, becker09$N, type = 'weighted', missing = FALSE, 
+                           variable_names = c('Cognitive_Performance', 'Somatic_Performance',
+                                              'Selfconfidence_Performance', 
+                                              'Somatic_Cognitive',
+                                              'Selfconfidence_Cognitive',
+                                              'Selfconfidence_Somatic'),
+                           ID = 'ID')
+fixed_model <- fit_model(data = input_metafor, effect_size = 'yi', 
+                         var_cor = 'V', moderators = ~ -1 + factor(outcome), 
+                         random_params = NULL)
+# below the model_out_fixed will extract some of the info but I am also extracting some here
+round(fixed_model$b, 3) # fixed effect estimates
+round(fixed_model$vb, 5) # fixed effect COV
+fixed_model # forthe Q and df 
+
+```
+
+Now we fit a random-effects model and extract some objects from this output.
+```{r random effect}
+random_model <- fit_model(data = input_metafor, effect_size = 'yi', 
+                          var_cor = 'V', moderators = ~ -1 + factor(outcome), 
+                          random_params = ~ factor(outcome) | factor(study))
+# below the model_out_random will extract some of the info but I am also extracting some here
+round(random_model$tau2, 3) # between studies variance 
+round(random_model$b, 3) # random effect estimate
+round(random_model$vb, 5) # random effect Cov
+```
+
+# Extract model data
+These are the results under random effect models.  This is what the typical output for the mode `extract_model`function for fixed-effect model looks like. 
+```{r extract_model_data fix}
+model_out_fixed <- extract_model(fixed_model, 
+                                 variable_names = c('Cognitive_Performance',
+                                                    'Somatic_Performance',
+                                                    'Selfconfidence_Performance', 
+                                                    'Somatic_Cognitive',
+                                                    'Selfconfidence_Cognitive',
+                                                    'Selfconfidence_Somatic'))
+model_out_fixed 
+```
+
+For the random-effect, we extract several more objects from the `extract_model`function. We can also build a correlation matrix of the $\hat{\tau}^2$ as well. 
+
+```{r extract model data random}
+model_out_random <- extract_model(random_model, 
+                                  variable_names = c('Cognitive_Performance',
+                                                     'Somatic_Performance',
+                                                     'Selfconfidence_Performance', 
+                                                     'Somatic_Cognitive',
+                                                     'Selfconfidence_Cognitive',
+                                                     'Selfconfidence_Somatic'))
+Rho <- model_out_random$rho 
+Tau2 <- model_out_random$tau
+#------------------
+# tau matrix
+#------------------
+rho_t <-  vec2sm(Rho, diag = FALSE)
+diag <- 1
+diag(rho_t) <- diag
+tdiag <- diag(sqrt(Tau2))
+taumat <- tdiag %*% rho_t %*% tdiag
+round(taumat, 3)
+round(cov2cor(taumat),2)
+```
+
+# Fit model with lavaan
+Now, we are ready to input the average correlation matrix and its variance covariance matrix into the lavaan package and our own function to appropriate estimate SE via the multivariate delta method. 
+```{r model_lavaan}
+model <- "## Regression paths
+Performance ~ Cognitive + Somatic + Selfconfidence
+Selfconfidence ~ Cognitive + Somatic
+## Fix the variances of Cog and SO at 1
+Cognitive ~~ 1*Cognitive
+Somatic ~~ 1*Somatic
+Cognitive ~~ Somatic"
+
+lavaan_output <- path_model(data = model_out_random, model = model, num_obs = sum(becker09$N))
+lavaan::summary(lavaan_output)
+```
+
+# Team 
+We now subset the data to obtain results only for the studies that reported on Team sports. 
+```{r team}
+becker09_T <- subset(becker09, becker09$Team == "T")
+
+```
+
+```{r convert_data2}
+becker09_list2 <- df_to_corr(becker09_T, 
+                             variables = c('Cognitive_Performance',
+                                           'Somatic_Performance',
+                                           'Selfconfidence_Performance', 
+                                           'Somatic_Cognitive',
+                                           'Selfconfidence_Cognitive',
+                                           'Selfconfidence_Somatic'),
+                             ID = 'ID')
+```
+
+```{r prep_data2}
+input_metafor2 <- prep_data(becker09_T, becker09_T$N, type = 'weighted', missing = FALSE, 
+                            variable_names = c('Cognitive_Performance', 'Somatic_Performance',
+                                               'Selfconfidence_Performance', 
+                                               'Somatic_Cognitive',
+                                               'Selfconfidence_Cognitive',
+                                               'Selfconfidence_Somatic'),
+                            ID = 'ID')
+
+random_model2 <- fit_model(data = input_metafor2, effect_size = 'yi', 
+                           var_cor = 'V', moderators = ~ -1 + factor(outcome), 
+                           random_params = ~ factor(outcome) | factor(study))
+
+```
+
+# Extract model data
+```{r extract_model_data2}
+model_out_random2 <- extract_model(random_model2, 
+                                   variable_names = c('Cognitive_Performance',
+                                                      'Somatic_Performance',
+                                                      'Selfconfidence_Performance', 
+                                                      'Somatic_Cognitive',
+                                                      'Selfconfidence_Cognitive',
+                                                      'Selfconfidence_Somatic'))
+```
+
+# Fit model with lavaan
+```{r model_lavaan2}
+model <- "## Regression paths
+Performance ~ Cognitive + Somatic + Selfconfidence
+Selfconfidence ~ Cognitive + Somatic
+## Fix the variances of Cog and SO at 1
+Cognitive ~~ 1*Cognitive
+Somatic ~~ 1*Somatic
+Cognitive ~~ Somatic"
+
+lavaan_output2 <- path_model(data = model_out_random2, model = model, num_obs = sum(becker09_T$N))
+lavaan::summary(lavaan_output2)
+```
+
+# Individual
+Similarly, we now subset the data to obtain results only for the studies that reported on Individual sports. 
+```{r Indiv}
+becker09_I <- subset(becker09, becker09$Team == "I")
+
+```
+
+```{r convert_data3}
+becker09_list3 <- df_to_corr(becker09_I, 
+                             variables = c('Cognitive_Performance',
+                                           'Somatic_Performance',
+                                           'Selfconfidence_Performance', 
+                                           'Somatic_Cognitive',
+                                           'Selfconfidence_Cognitive',
+                                           'Selfconfidence_Somatic'),
+                             ID = 'ID')
+```
+
+```{r prep_data3}
+input_metafor3 <- prep_data(becker09_I, becker09_I$N, type = 'weighted', missing = FALSE,
+                            variable_names = c('Cognitive_Performance', 'Somatic_Performance',
+                                               'Selfconfidence_Performance', 
+                                               'Somatic_Cognitive',
+                                               'Selfconfidence_Cognitive',
+                                               'Selfconfidence_Somatic'),
+                            ID = 'ID')
+
+random_model3 <- fit_model(data = input_metafor3, effect_size = 'yi', 
+                           var_cor = 'V', moderators = ~ -1 + factor(outcome), 
+                           random_params = ~ factor(outcome) | factor(study))
+
+```
+
+# Extract model data
+```{r extract_model_data3}
+model_out_random3 <- extract_model(random_model3, 
+                                   variable_names = c('Cognitive_Performance',
+                                                      'Somatic_Performance',
+                                                      'Selfconfidence_Performance', 
+                                                      'Somatic_Cognitive',
+                                                      'Selfconfidence_Cognitive',
+                                                      'Selfconfidence_Somatic'))
+```
+
+# Fit model with lavaan
+```{r model_lavaan3}
+model <- "## Regression paths
+Performance ~ Cognitive + Somatic + Selfconfidence
+Selfconfidence ~ Cognitive + Somatic
+## Fix the variances of Cog and SO at 1
+Cognitive ~~ 1*Cognitive
+Somatic ~~ 1*Somatic
+Cognitive ~~ Somatic"
+
+lavaan_output3 <- path_model(data = model_out_random3, model = model, num_obs = sum(becker09_I$N))
+lavaan::summary(lavaan_output3)
+```
+
+# Partial correlation matrix
+Here we compute the synthetic partial correlation from the average correlation matrix.
+```{r pipe}
+# partial corr matrix
+round(cor2pcor(model_out_random$beta_matrix),3)
+
+# var-cov matrix of partials
+Psy <- random_model$vb
+round(var_path(model_out_random$beta_matrix, Psy, type = 'pcor'), 4)
+```
+
+# Partial from uni approach
+Here we work with partial correlation for each study and then synthesize that information. 
+```{r partial}
+#---------------------------------------------------------------------
+# Create a data set with 8 complete studies
+#---------------------------------------------------------------------
+R <-  becker09_list
+R$"6" <- NULL
+R$"17" <- NULL
+n <- becker09$N[c(-3, -5)]
+#------------------------------------------------------------------
+# first replace NA by zeros
+RR <- R                           # redifine list
+
+PR <- lapply(RR, cor2pcor)
+pr <- unlist(lapply(PR, '[[', 4))
+var_pr <- (1-pr^2)^2 / (n - 3 -1)
+
+rma.uni(pr, var_pr)
+```
