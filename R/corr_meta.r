@@ -65,7 +65,7 @@ corr_meta <- function(data, n, type = c('average','weighted', 'simple'),
                                    variable_names = variable_names)
 
   lavaan_output <- path_model(data = model_out_random, model = model,
-                              num_obs = num_obs)
+                              num_obs = num_obs, ...)
 
   updated_se <- var_path(metafor_results[['beta_matrix']],
                          metafor_results[['var_matrix']])

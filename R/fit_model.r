@@ -66,7 +66,7 @@ fit_model <- function(data, effect_size, var_cor, weights = NULL,
 #'    \code{\link{sem}} for more details about model syntax.
 #' @param num_obs Number of observations
 #' @param adjust_se Adjust the standard errors to reflect the ...
-#' @param ... Additional options to pass to \code{\link{lavaan::sem}}.
+#' @param ... Additional options to pass to \code{\link{sem}}.
 #'
 #' @importFrom lavaan sem parTable fitmeasures
 #'

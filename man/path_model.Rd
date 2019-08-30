@@ -18,7 +18,7 @@ and the variance matrix. This would most likely come from the
 
 \item{adjust_se}{Adjust the standard errors to reflect the ...}
 
-\item{...}{Additional options to pass to \code{\link{lavaan::sem}}.}
+\item{...}{Additional options to pass to \code{\link{sem}}.}
 }
 \description{
 This function fits the path model and returns adjusted standard errors.
