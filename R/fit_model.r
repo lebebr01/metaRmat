@@ -139,8 +139,9 @@ path_model <- function(data, model, num_obs, adjust_se = TRUE, ...) {
   model_output
 }
 
+#' @importFrom stats pnorm
 #' @export
-summary.metaRmat <- function(object, fit_measures = TRUE) {
+summary.metaRmat <- function(object, fit_measures = TRUE, ...) {
 
   fixed_coef <- subset(object[['parameter_estimates']],
                        subset = op == "~",
@@ -152,7 +153,7 @@ summary.metaRmat <- function(object, fit_measures = TRUE) {
 
   fixed_coef[['standard_errors']] <- do.call('c', standard_errors)
   fixed_coef[['test_statistic']] <- fixed_coef[['Estimate']] / fixed_coef[['standard_errors']]
-  fixed_coef[['p_value']] <- pnorm(abs(fixed_coef[['test_statistic']]), lower.tail = FALSE) * 2
+  fixed_coef[['p_value']] <- stats::pnorm(abs(fixed_coef[['test_statistic']]), lower.tail = FALSE) * 2
 
   random_coef <- subset(object[['parameter_estimates']],
                         subset = op == "~~",
@@ -189,19 +190,19 @@ summary.metaRmat <- function(object, fit_measures = TRUE) {
 }
 
 #' @export
-print.summary.metaRmat <- function(object, digits = max(3, getOption("digits") - 3),
+print.summary.metaRmat <- function(x, digits = max(3, getOption("digits") - 3),
                                    signif.stars = getOption("show.signif.stars"),
-                                   tidy = FALSE) {
+                                   tidy = FALSE, ...) {
 
   if(tidy) {
 
   } else {
-    cat('Model Fitted: \n', object$model, "\n \n")
-      cat('Variance Estimates: \n', object$variance, "\n \n")
-        cat('Covariance Estimates: \n', object$covariance, "\n \n")
+    cat('Model Fitted: \n', x$model, "\n \n")
+      cat('Variance Estimates: \n', x$variance, "\n \n")
+        cat('Covariance Estimates: \n', x$covariance, "\n \n")
         cat('Fixed Effects: \n')
-        print(object$fixed_coef)
-    # data.frame(object$fixed_coef[, 1:2], printCoefmat(object$fixed_coef[, 3:ncol(object$fixed_coef)], digits = digits, signif.stars = signif.stars,
+        print(x$fixed_coef)
+    # data.frame(x$fixed_coef[, 1:2], printCoefmat(x$fixed_coef[, 3:ncol(x$fixed_coef)], digits = digits, signif.stars = signif.stars,
     #              has.Pvalue = TRUE, cs.ind = 1:2, tst.ind = 3, P.values = TRUE))
   }
 }
