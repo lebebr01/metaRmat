@@ -86,8 +86,22 @@ model <- "## Regression paths
           Cognitive ~~ Somatic"
 
 lavaan_output <- path_model(data = model_out_random, model = model, num_obs = 600)
-lavaan::summary(lavaan_output)
+summary(lavaan_output)
 ```
+
+# Fit reduced model
+```{r}
+model <- "## Regression paths
+          Performance ~ Cognitive + Somatic
+          ## Fix the variances of Cog and SO at 1
+          Cognitive ~~ 1*Cognitive
+          Somatic ~~ 1*Somatic
+          Cognitive ~~ Somatic"
+
+lavaan_output <- path_model(data = model_out_random, model = model, num_obs = 600)
+summary(lavaan_output)
+```
+
 
 # Functions work with pipe `%>%`
 ```{r pipe}

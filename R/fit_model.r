@@ -114,10 +114,14 @@ path_model <- function(data, model, num_obs, adjust_se = TRUE, ...) {
       merge(corr_elements[[xx]], full_corr_matrix,
             by = c('X1', 'X2', 'corr')))
 
+    matches <- lapply(seq_along(matches), function(xx)
+      matches[[xx]][order(matches[[xx]][['num']]), ]
+      )
+
     var_list <- lapply(seq_along(variables),
                        function(xx)
-                         data[['var_matrix']][min(matches[[xx]][['num']]):max(matches[[xx]][['num']]),
-                                                min(matches[[xx]][['num']]):max(matches[[xx]][['num']])]
+                         data[['var_matrix']][matches[[xx]][['num']],
+                                              matches[[xx]][['num']]]
     )
 
     computed_se <- lapply(seq_along(data_list), function(xx)
@@ -129,7 +133,8 @@ path_model <- function(data, model, num_obs, adjust_se = TRUE, ...) {
     computed_se <- NULL
   }
 
-  model_output <- list(parameter_estimates = coefficients,
+  model_output <- list(beta_matrix = data[['beta_matrix']],
+                       parameter_estimates = coefficients,
                        fit_measures = fitmeasures(fitted_model),
                        computed_var = computed_se,
                        model = model)
@@ -180,7 +185,8 @@ summary.metaRmat <- function(object, fit_measures = TRUE, ...) {
     fit_meas = NULL
   }
 
-  structure(list(model = model,
+  structure(list(beta_matrix = data.frame(object[['beta_matrix']]),
+                 model = model,
                  fit_measures = fit_meas,
                  variance = variances,
                  covariance = covariances,
@@ -197,7 +203,9 @@ print.summary.metaRmat <- function(x, digits = max(3, getOption("digits") - 3),
   if(tidy) {
 
   } else {
-    cat('Model Fitted: \n', x$model, "\n \n")
+    cat('Average Correlation Matrix: \n')
+    print(x$beta_matrix)
+    cat('\n \n Model Fitted: \n', x$model, "\n \n")
       cat('Variance Estimates: \n', x$variance, "\n \n")
         cat('Covariance Estimates: \n', x$covariance, "\n \n")
         cat('Fixed Effects: \n')
