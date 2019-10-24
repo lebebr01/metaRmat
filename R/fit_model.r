@@ -186,7 +186,7 @@ summary.metaRmat <- function(object, fit_measures = TRUE, ...) {
   }
 
   structure(list(beta_matrix = data.frame(object[['beta_matrix']]),
-                 model = model,
+                 model = object[['model']],
                  fit_measures = fit_meas,
                  variance = variances,
                  covariance = covariances,
