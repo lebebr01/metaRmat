@@ -6,7 +6,7 @@
 \usage{
 fit_model(data, effect_size, var_cor, weights = NULL,
   moderators = NULL, random_params = NULL, structure = "UN",
-  test = "t", intercept = FALSE, estimation_method = "REML", ...)
+  test = "z", intercept = FALSE, estimation_method = "REML", ...)
 }
 \arguments{
 \item{data}{Raw data input}
@@ -34,7 +34,7 @@ which represents compound symmetry. See \code{\link{rma.mv}} for more
 details.}
 
 \item{test}{What type of test statistic should be used.
-Default is a t-statistic. See \code{\link{rma.mv}} for more details.}
+Default is a z-statistic. See \code{\link{rma.mv}} for more details.}
 
 \item{intercept}{Should an intercept be included in the metafor model.
 See \code{\link{rma.mv}} for more details.}
