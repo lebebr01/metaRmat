@@ -16,9 +16,8 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r readindata}
-becker09 <- read.csv(paste0(system.file('raw_data', package = 'metaRmat'),
-                            '/Becker09.csv'))
+```{r showdata}
+becker09
 ```
 
 ```{r convert_data}
@@ -98,7 +97,12 @@ model <- "## Regression paths
           Somatic ~~ 1*Somatic
           Cognitive ~~ Somatic"
 
-lavaan_output <- path_model(data = model_out_random, model = model, num_obs = 600)
+lavaan_output <- path_model(data = model_out_random, model = "## Regression paths
+          Performance ~ Cognitive + Somatic
+          ## Fix the variances of Cog and SO at 1
+          Cognitive ~~ 1*Cognitive
+          Somatic ~~ 1*Somatic
+          Cognitive ~~ Somatic", num_obs = 600)
 summary(lavaan_output)
 ```
 
