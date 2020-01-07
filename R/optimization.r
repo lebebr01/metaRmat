@@ -108,7 +108,7 @@ find_B = function(model, R) {
 
   model_line <- model_line[which(model_line != "")]
 
-  Result = sapply(seq_along(model_line), function(xx) {
+  Result <- sapply(seq_along(model_line), function(xx) {
     find_b(model_line[xx], R)
     })
 
@@ -134,18 +134,17 @@ find_B = function(model, R) {
 #' @export
 #'
 #' @examples
-c_mat_ft<- function(model, R) {
+c_mat_ft <- function(model, R) {
   A_mat <- matrix(0, nrow = nrow(R), ncol = ncol(R))
   colnames(A_mat) <- colnames(R)
   rownames(A_mat) <- rownames(R)
 
   path_coef <- find_B(model, R)
 
-  for(j in 1:length(path_coef)) {
-    path_coef_1 <- path_coef[[j]]
-    for(i in 1:length(path_coef_1)) {
-      A_names <- unlist(strsplit(names(path_coef_1[i]), ".->."))
-      A_mat[A_names[2],A_names[1]] <- path_coef_1[i]
+  for(j in seq_along(path_coef)) {
+    for(i in seq_along(path_coef[[j]])) {
+      A_names <- unlist(strsplit(names(path_coef[[j]][i]), ".->."))
+      A_mat[A_names[2], A_names[1]] <- path_coef[[j]][i]
     }
   }
 
@@ -154,7 +153,7 @@ c_mat_ft<- function(model, R) {
   rownames(S_mat) <- rownames(R)
   diag(S_mat) <- 1
 
-  exo <- unique(unlist(lapply(strsplit(unlist(lapply(path_coef, function(x)names(x))),
+  exo <- unique(unlist(lapply(strsplit(unlist(lapply(path_coef, function(x) names(x))),
                                       ".->."), function(y) y[2])))
 
   ind <- setdiff(colnames(R),exo)
