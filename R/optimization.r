@@ -134,21 +134,20 @@ find_B = function(model, R) {
 #' @export
 #'
 #' @examples
-C_mat_ft <- function(model, R) {
+c_mat_ft<- function(model, R) {
   A_mat <- matrix(0, nrow = nrow(R), ncol = ncol(R))
   colnames(A_mat) <- colnames(R)
   rownames(A_mat) <- rownames(R)
 
   path_coef <- find_B(model, R)
 
-  for(j in 1:length(path_coef)){
+  for(j in 1:length(path_coef)) {
     path_coef_1 <- path_coef[[j]]
     for(i in 1:length(path_coef_1)) {
       A_names <- unlist(strsplit(names(path_coef_1[i]), ".->."))
       A_mat[A_names[2],A_names[1]] <- path_coef_1[i]
     }
   }
-
 
   S_mat <- matrix(0, nrow = nrow(R), ncol = ncol(R))
   colnames(S_mat) <- colnames(R)
@@ -160,10 +159,8 @@ C_mat_ft <- function(model, R) {
 
   ind <- setdiff(colnames(R),exo)
 
-  for(i in 1:length(ind))
-  {
-    for(j in 1:length(ind))
-    {
+  for(i in 1:length(ind)) {
+    for(j in 1:length(ind)) {
       S_mat[ind[i], ind[j]] <- R[ind[i], ind[j]]
     }
   }
@@ -323,7 +320,7 @@ model_fit <- function(model_result, R,
 
   for(i in 1:nrow(R)) {
     for(j in i:ncol(R)) {
-      S_S[i,j] <- S[i,i]*S[j,j]
+      S_S[i,j] <- R[i,i]*R[j,j]
     }
   }
   uppder_S_S <- S_S[upper.tri(S_S)]
