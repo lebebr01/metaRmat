@@ -1,5 +1,7 @@
 # metaRmat
 
+[![Build Status](https://travis-ci.org/lebebr01/metaRmat.svg?branch=master)](https://travis-ci.org/lebebr01/metaRmat)
+
 ## Package Installation
 
 The package can be installed directly from GitHub using devtools or the remotes package with the following command:
