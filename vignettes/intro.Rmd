@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r showdata}
+```{r showdata, message = FALSE}
 library(metaRmat)
 
 becker09
@@ -109,7 +109,7 @@ summary(lavaan_output)
 
 
 # Functions work with pipe `%>%`
-```{r pipe}
+```{r pipe, message = FALSE}
 library(dplyr)
 
 becker09 <- read.csv(paste0(system.file('raw_data', package = 'metaRmat'),

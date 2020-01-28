@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 We load the necessary packages as well as the data set for the example. Because for this example we are using only complete data we remove the the two studies with `NA` (i.e., Study 6 and Study 17).
 
-```{r readindata}
+```{r readindata, message = FALSE}
 library(metaRmat)
 library(metafor)
 library(corpcor)
