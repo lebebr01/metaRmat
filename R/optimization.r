@@ -4,7 +4,7 @@
 #' @param R Correlation matrix
 #' @param ...Currently not used
 #'
-#' @return
+#' @return A vector of regression coefficient estimates.
 #'
 #' @export
 find_b = function(model_input, R, ...) {
@@ -47,15 +47,16 @@ find_b = function(model_input, R, ...) {
 
 
 
-#' Title
+#' Mul R2
 #'
-#' @param model_input
-#' @param R
+#' @param model_input Model input as a character string. Multiple models need
+#'   to be on their own line. Model syntax uses lavann like syntax, see details
+#'   for more details about this syntax.
+#' @param R A correlation matrix, most likely this will be the average
+#'   correlation matrix outputted from the metafor package.
 #'
-#' @return
+#' @return A vector of names
 #' @export
-#'
-#' @examples
 Mul_R2 = function(model_input, R) {
 
   if(length(grep("^\\s*#", model_input, value=TRUE)) == 0){
@@ -94,17 +95,41 @@ Mul_R2 = function(model_input, R) {
   }
 }
 
-#' Title
+#' Estimate regression coefficients
 #'
-#' @param model
-#' @param R
+#' @param model_input Model input as a character string. Multiple models need
+#'   to be on their own line. Model syntax uses lavann like syntax, see details
+#'   for more details about this syntax.
+#' @param R A correlation matrix, most likely this will be the average
+#'   correlation matrix outputted from the metafor package.
 #'
-#' @return
+#' @return A list of parameter estimates
+#' @details Detailed examples of lavaan like syntax can be found:
+#'   http://lavaan.ugent.be/tutorial/syntax1.html.
+#'
+#'   The output will be the same length as the number of regression equations
+#'   specified in the model_input argument.
 #' @export
 #'
 #' @examples
-find_B <- function(model, R) {
-  model_line <- trimws(unlist(strsplit(model, "\n")))
+#' Br <-  matrix(c(1.00000000, -0.09773331, -0.1755029,  0.3186775,
+#' -0.09773331,  1.00000000,  0.5271873, -0.4175596,
+#' -0.17550292,  0.5271872,  1.0000000, -0.4006848,
+#' 0.31867753, -0.41755963, -0.4006848,  1.0000000),
+#' nrow = 4, byrow = TRUE)
+#'
+#' colnames(Br) <- c("Performance",  "Self_confidence",  "Cognitive", "Somatic" )
+#'
+#' rownames(Br) <- colnames(Br)
+#'
+#' ## Proposed path model
+#'model <- "## Regression paths
+#' Performance ~  Self_confidence  + Cognitive  + Somatic
+#' Self_confidence ~ Cognitive + Somatic "
+#'
+#' find_B(model, Br)
+find_B <- function(model_input, R) {
+  model_line <- trimws(unlist(strsplit(model_input, "\n")))
 
   model_line <- model_line[which(model_line != "")]
 
@@ -125,21 +150,40 @@ find_B <- function(model, R) {
 }
 
 
-#' Title
+#' c mat ft
 #'
-#' @param model
-#' @param R
+#' @param model_input Model input as a character string. Multiple models need
+#'   to be on their own line. Model syntax uses lavann like syntax, see details
+#'   for more details about this syntax.
+#' @param R A correlation matrix, most likely this will be the average
+#'   correlation matrix outputted from the metafor package.
 #'
-#' @return
+#' @return A list.
 #' @export
 #'
 #' @examples
-c_mat_ft <- function(model, R) {
+#' Br <-  matrix(c(1.00000000, -0.09773331, -0.1755029,  0.3186775,
+#' -0.09773331,  1.00000000,  0.5271873, -0.4175596,
+#' -0.17550292,  0.5271872,  1.0000000, -0.4006848,
+#' 0.31867753, -0.41755963, -0.4006848,  1.0000000),
+#' nrow = 4, byrow = TRUE)
+#'
+#' colnames(Br) <- c("Performance",  "Self_confidence",  "Cognitive", "Somatic" )
+#'
+#' rownames(Br) <- colnames(Br)
+#'
+#' ## Proposed path model
+#'model <- "## Regression paths
+#' Performance ~  Self_confidence  + Cognitive  + Somatic
+#' Self_confidence ~ Cognitive + Somatic "
+#'
+#' c_mat_ft(model, Br)
+c_mat_ft <- function(model_input, R) {
   A_mat <- matrix(0, nrow = nrow(R), ncol = ncol(R))
   colnames(A_mat) <- colnames(R)
   rownames(A_mat) <- rownames(R)
 
-  path_coef <- find_B(model, R)
+  path_coef <- find_B(model_input, R)
 
   for(j in seq_along(path_coef)) {
     for(i in seq_along(path_coef[[j]])) {
@@ -165,7 +209,7 @@ c_mat_ft <- function(model, R) {
   }
 
 
-  model_line <- trimws(unlist(strsplit(model, "\n")))
+  model_line <- trimws(unlist(strsplit(model_input, "\n")))
 
   model_line <- model_line[which(model_line != "")]
 
@@ -194,7 +238,8 @@ c_mat_ft <- function(model, R) {
     length(unique(S_mat[(which(S_mat != 0 & S_mat != 1))]))
   df <- ncol(R)*(ncol(R)+1)/2 - num_freePar
 
-  list(A_mat = A_mat,
+  list(model_input = model_input,
+       A_mat = A_mat,
        S_mat= S_mat,
        F_mat = F_mat,
        C_mat = C_mat,
@@ -211,27 +256,50 @@ c_mat_ft <- function(model, R) {
 
 #' Model fitting function
 #'
-#' @param model_result
+#' @param model_result A result from c_mat_ft
 #' @param R Correlation matrix
-#' @param method_mat
-#' @param method_null
-#' @param N
+#' @param method_mat Method of estimation.
+#' @param method_null Unsure
+#' @param N Sample size
 #'
-#' @return
+#' @return A list of fit indices.
 #' @export
 #'
 #' @examples
+#' Br <-  matrix(c(1.00000000, -0.09773331, -0.1755029,  0.3186775,
+#' -0.09773331,  1.00000000,  0.5271873, -0.4175596,
+#' -0.17550292,  0.5271872,  1.0000000, -0.4006848,
+#' 0.31867753, -0.41755963, -0.4006848,  1.0000000),
+#' nrow = 4, byrow = TRUE)
+#'
+#' colnames(Br) <- c("Performance",  "Self_confidence",  "Cognitive", "Somatic" )
+#'
+#' rownames(Br) <- colnames(Br)
+#'
+#' ## Proposed path model
+#'model <- "## Regression paths
+#' Performance ~  Self_confidence  + Cognitive  + Somatic
+#' Self_confidence ~ Cognitive + Somatic "
+#'
+#' N <- 573
+#' model_result <- c_mat_ft(model, Br)
+#' model_fit(model_result, R = Br, method_mat  = "lavaan",
+#'          method_null = "sem", N)
+#' model_fit(model_result, R = Br, method_mat  = "Loehlin",
+#'          method_null = "sem", N )
 model_fit <- function(model_result, R,
                      method_mat  = "lavaan",
                      method_null = "sem",
                      N) {
   # Implied correlation matrix
   if(method_mat == "lavaan") {
-    SigmaHat <-  model_result$S_mat
+    SigmaHat <-  model_result[['S_mat']]
   }
   if(method_mat == "Loehlin") {
-    SigmaHat <-  model_result$C_mat
+    SigmaHat <-  model_result[['C_mat']]
   }
+
+  path_coef <- find_B(model_result[['model_input']], R)
 
   # # observed correlation matrix
   # S = R
@@ -244,7 +312,8 @@ model_fit <- function(model_result, R,
 
 
   Chi2 <- GLSdisc * (N - 1)
-  pvalue <- pchisq(Chi2, model_result$df, ncp = 0, lower.tail = F, log.p = FALSE)
+  pvalue <- pchisq(Chi2, model_result[['df']], ncp = 0,
+                   lower.tail = F, log.p = FALSE)
 
   if (method_null == "sem"){
     # sem pacakge chi2Null method
@@ -257,20 +326,20 @@ model_fit <- function(model_result, R,
 
   dfNull <- ncol(R)*(ncol(R)+1)/2 - ncol(R) # Not sure about it
 
-  lambda <- Chi2 - model_result$df
+  lambda <- Chi2 - model_result[['df']]
   lambdaNULL <- Chi2Null - dfNull
 
   # CFI & TLI
   CFI <- 1 - lambda/lambdaNULL
-  TLI <- 1 - (lambda/model_result$df)/(lambdaNULL/dfNull)
+  TLI <- 1 - (lambda/model_result[['df']])/(lambdaNULL/dfNull)
 
   # RMSEA
   if( lambda < 0 ){
     RMSEA <- "RMSEA is negative"
     RMSEA_CI <- NULL
   }else{
-    RMSEA <- sqrt(lambda/((N-1)*model_result$df)) # when Chi2 - df is negative, it does not
-    df <- model_result$df
+    RMSEA <- sqrt(lambda/((N-1)*model_result[['df']])) # when Chi2 - df is negative, it does not
+    df <- model_result[['df']]
     max <- N
     tail <- (1 - 0.95)/2
 
@@ -327,7 +396,8 @@ model_fit <- function(model_result, R,
   SRMR <- sqrt((sum((diag(diff)/ diag(R)^2)^2) +
                   sum((uppder_diff / uppder_S_S)^2)) / (ncol(R)*(ncol(R)+1)/2))
 
-  list(Model = round(c(Chi2 = Chi2 , df = model_result$df, pvalue =pvalue),4),
+  list(path_coefficients = path_coef,
+       Model = round(c(Chi2 = Chi2 , df = model_result$df, pvalue =pvalue),4),
        NullModel = c(Chi2Null = Chi2Null, dfNull= dfNull),
        CFI = CFI,
        TLI= TLI,

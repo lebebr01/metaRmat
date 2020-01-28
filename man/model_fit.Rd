@@ -8,10 +8,42 @@ model_fit(model_result, R, method_mat = "lavaan", method_null = "sem",
   N)
 }
 \arguments{
+\item{model_result}{A result from c_mat_ft}
+
 \item{R}{Correlation matrix}
 
-\item{N}{}
+\item{method_mat}{Method of estimation.}
+
+\item{method_null}{Unsure}
+
+\item{N}{Sample size}
+}
+\value{
+A list of fit indices.
 }
 \description{
 Model fitting function
+}
+\examples{
+Br <-  matrix(c(1.00000000, -0.09773331, -0.1755029,  0.3186775,
+-0.09773331,  1.00000000,  0.5271873, -0.4175596,
+-0.17550292,  0.5271872,  1.0000000, -0.4006848,
+0.31867753, -0.41755963, -0.4006848,  1.0000000),
+nrow = 4, byrow = TRUE)
+
+colnames(Br) <- c("Performance",  "Self_confidence",  "Cognitive", "Somatic" )
+
+rownames(Br) <- colnames(Br)
+
+## Proposed path model
+model <- "## Regression paths
+Performance ~  Self_confidence  + Cognitive  + Somatic
+Self_confidence ~ Cognitive + Somatic "
+
+N <- 573
+model_result <- c_mat_ft(model, Br)
+model_fit(model_result, R = Br, method_mat  = "lavaan",
+         method_null = "sem", N)
+model_fit(model_result, R = Br, method_mat  = "Loehlin",
+         method_null = "sem", N )
 }

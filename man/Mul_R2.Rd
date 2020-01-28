@@ -2,13 +2,21 @@
 % Please edit documentation in R/optimization.r
 \name{Mul_R2}
 \alias{Mul_R2}
-\title{Title}
+\title{Mul R2}
 \usage{
-Mul_R2(model_line_1, R)
+Mul_R2(model_input, R)
 }
 \arguments{
-\item{R}{}
+\item{model_input}{Model input as a character string. Multiple models need
+to be on their own line. Model syntax uses lavann like syntax, see details
+for more details about this syntax.}
+
+\item{R}{A correlation matrix, most likely this will be the average
+correlation matrix outputted from the metafor package.}
+}
+\value{
+A vector of names
 }
 \description{
-Title
+Mul R2
 }

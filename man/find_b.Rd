@@ -2,13 +2,46 @@
 % Please edit documentation in R/optimization.r
 \name{find_B}
 \alias{find_B}
-\title{Title}
+\title{Estimate regression coefficients}
 \usage{
-find_B(model, R)
+find_B(model_input, R)
 }
 \arguments{
-\item{R}{}
+\item{model_input}{Model input as a character string. Multiple models need
+to be on their own line. Model syntax uses lavann like syntax, see details
+for more details about this syntax.}
+
+\item{R}{A correlation matrix, most likely this will be the average
+correlation matrix outputted from the metafor package.}
+}
+\value{
+A list of parameter estimates
 }
 \description{
-Title
+Estimate regression coefficients
+}
+\details{
+Detailed examples of lavaan like syntax can be found:
+  http://lavaan.ugent.be/tutorial/syntax1.html.
+
+  The output will be the same length as the number of regression equations
+  specified in the model_input argument.
+}
+\examples{
+Br <-  matrix(c(1.00000000, -0.09773331, -0.1755029,  0.3186775,
+-0.09773331,  1.00000000,  0.5271873, -0.4175596,
+-0.17550292,  0.5271872,  1.0000000, -0.4006848,
+0.31867753, -0.41755963, -0.4006848,  1.0000000),
+nrow = 4, byrow = TRUE)
+
+colnames(Br) <- c("Performance",  "Self_confidence",  "Cognitive", "Somatic" )
+
+rownames(Br) <- colnames(Br)
+
+## Proposed path model
+model <- "## Regression paths
+Performance ~  Self_confidence  + Cognitive  + Somatic
+Self_confidence ~ Cognitive + Somatic "
+
+find_B(model, Br)
 }
