@@ -1,6 +1,6 @@
 # metaRmat
 
-[![Build Status](https://travis-ci.org/lebebr01/metaRmat.svg?branch=master)](https://travis-ci.org/lebebr01/metaRmat)
+[![R build status](https://github.com/lebebr01/metaRmat/workflows/R-CMD-check/badge.svg)](https://github.com/lebebr01/metaRmat/actions?workflow=R-CMD-check)
 
 ## Package Installation
 
