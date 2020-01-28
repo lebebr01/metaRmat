@@ -1,23 +1,23 @@
 #' Find regression coefficients
 #'
-#' @param model_line_1 ...
+#' @param model_input ...
 #' @param R Correlation matrix
 #' @param ...Currently not used
 #'
 #' @return
 #'
 #' @export
-find_b = function(model_line_1, R, ...) {
+find_b = function(model_input, R, ...) {
 
-  if(length(grep("^\\s*#", model_line_1, value = TRUE)) == 0) {
-    model_line_1 = trimws(unlist(strsplit(model_line_1, ".#")))[1]
+  if(length(grep("^\\s*#", model_input, value = TRUE)) == 0) {
+    model_input = trimws(unlist(strsplit(model_input, ".#")))[1]
 
-    if(length(grep("~", unlist(strsplit(model_line_1, "")))) != 1) {
+    if(length(grep("~", unlist(strsplit(model_input, "")))) != 1) {
       stop("Please check the model again")
     }
-    try(as.formula(model_line_1))
+    try(as.formula(model_input))
 
-    names_r1122 <- trimws(unlist(strsplit(model_line_1, "~")))
+    names_r1122 <- trimws(unlist(strsplit(model_input, "~")))
 
     names_r22 <- names_r1122[1]
     if(length(grep("+", names_r1122[2]))>0){
@@ -49,24 +49,24 @@ find_b = function(model_line_1, R, ...) {
 
 #' Title
 #'
-#' @param model_line_1
+#' @param model_input
 #' @param R
 #'
 #' @return
 #' @export
 #'
 #' @examples
-Mul_R2 = function(model_line_1, R) {
+Mul_R2 = function(model_input, R) {
 
-  if(length(grep("^\\s*#", model_line_1, value=TRUE)) == 0){
-    model_line_1 = trimws(unlist(strsplit(model_line_1, ".#")))[1]
+  if(length(grep("^\\s*#", model_input, value=TRUE)) == 0){
+    model_input = trimws(unlist(strsplit(model_input, ".#")))[1]
 
-    if(length(grep("~", unlist(strsplit(model_line_1, "")))) != 1) {
+    if(length(grep("~", unlist(strsplit(model_input, "")))) != 1) {
       stop("Please check the model again")
     }
-    try(as.formula(model_line_1))
+    try(as.formula(model_input))
 
-    names_r1122 = trimws(unlist(strsplit(model_line_1, "~")))
+    names_r1122 = trimws(unlist(strsplit(model_input, "~")))
 
     names_r22 = names_r1122[1]
     if(length(grep("+", names_r1122[2]))>0){
@@ -103,7 +103,7 @@ Mul_R2 = function(model_line_1, R) {
 #' @export
 #'
 #' @examples
-find_B = function(model, R) {
+find_B <- function(model, R) {
   model_line <- trimws(unlist(strsplit(model, "\n")))
 
   model_line <- model_line[which(model_line != "")]
@@ -112,7 +112,7 @@ find_B = function(model, R) {
     find_b(model_line[xx], R)
     })
 
-  if(sum(sapply(Result, is.null)) > 0){
+  if(sum(sapply(Result, is.null)) > 0) {
     Result <- Result[-which(sapply(Result, is.null))]
 
     lapply(Result, unlist)
