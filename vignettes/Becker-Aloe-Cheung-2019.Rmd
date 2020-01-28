@@ -15,14 +15,16 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
-We read the necessary packages as well as the data set for the example. Because for this example we are using only complete data we remove the the two studies with `NA` (i.e., Study 6 and Study 17).
+
+We load the necessary packages as well as the data set for the example. Because for this example we are using only complete data we remove the the two studies with `NA` (i.e., Study 6 and Study 17).
+
 ```{r readindata}
 library(metaRmat)
 library(metafor)
 library(corpcor)
 library(Matrix)
 library(matrixcalc)
-becker09 <- read.csv(paste0(system.file('raw_data', package = 'metaRmat'), '/Becker09.csv'))
+
 becker09 <- na.omit(becker09) # ommiting studies with NA
 ```
 

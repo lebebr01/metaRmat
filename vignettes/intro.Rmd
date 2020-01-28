@@ -17,11 +17,12 @@ knitr::opts_chunk$set(
 ```
 
 ```{r showdata}
+library(metaRmat)
+
 becker09
 ```
 
 ```{r convert_data}
-library(metaRmat)
 becker09_list <- df_to_corr(becker09, 
                             variables = c('Cognitive_Performance',
                                           'Somatic_Performance',
