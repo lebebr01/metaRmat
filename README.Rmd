@@ -1,6 +1,8 @@
 # metaRmat
 
 [![R build status](https://github.com/lebebr01/metaRmat/workflows/R-CMD-check/badge.svg)](https://github.com/lebebr01/metaRmat/actions?workflow=R-CMD-check)
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/lebebr01/metaRmat?branch=master&svg=true)](https://ci.appveyor.com/project/lebebr01/metaRmat)
+
 
 ## Package Installation
 
