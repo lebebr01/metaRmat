@@ -72,25 +72,33 @@ fit_model <- function(data, effect_size, var_cor, weights = NULL,
 #'
 #' @export
 #'
-path_model <- function(data, model, num_obs, adjust_se = TRUE, ...) {
+path_model <- function(data, model, num_obs, adjust_se = TRUE,
+                       method_mat = c("Loehlin", "lavaan"),
+                       method_null = 'sem', ...) {
 
-  fitted_model <- lavaan::sem(model, sample.cov = data[['beta_matrix']],
-                              sample.nobs = num_obs, ...)
+  fitted_model <- model_fit(model_input = model, R = data[['beta_matrix']],
+                            method_mat = method_mat, method_null = method_null,
+                            N = num_obs)
 
-  coefficients <- lavaan::parTable(fitted_model)
+  coefficients <- fitted_model[['path_coefficients']]
+
+  # fitted_model <- lavaan::sem(model, sample.cov = data[['beta_matrix']],
+  #                             sample.nobs = num_obs, ...)
+  #
+  # coefficients <- lavaan::parTable(fitted_model)
 
   if(adjust_se) {
-    outcomes <- subset(coefficients,
-                       subset = op == '~',
-                       select = c('lhs', 'rhs'))
-    num_outcomes <- split(outcomes,
-                          outcomes$lhs)
+    # outcomes <- subset(coefficients,
+    #                    subset = op == '~',
+    #                    select = c('lhs', 'rhs'))
+    # num_outcomes <- split(outcomes,
+    #                       outcomes$lhs)
+    #
+    # variables <- lapply(lapply(num_outcomes, unlist), unique)
 
-    variables <- lapply(lapply(num_outcomes, unlist), unique)
-
-    formulas <- lapply(seq_along(variables), function(xx)
-      paste0(variables[[xx]][1], " ~ ", paste(variables[[xx]][2:length(variables[[xx]])], collapse = " + "))
-      )
+    # formulas <- lapply(seq_along(variables), function(xx)
+    #   paste0(variables[[xx]][1], " ~ ", paste(variables[[xx]][2:length(variables[[xx]])], collapse = " + "))
+    #   )
 
     data_list <- lapply(seq_along(variables),
                         function(xx)

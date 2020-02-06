@@ -256,9 +256,12 @@ c_mat_ft <- function(model_input, R) {
 
 #' Model fitting function
 #'
-#' @param model_result A result from c_mat_ft
-#' @param R Correlation matrix
-#' @param method_mat Method of estimation.
+#' @param model_input Model input as a character string. Multiple models need
+#'   to be on their own line. Model syntax uses lavann like syntax, see details
+#'   for more details about this syntax.
+#' @param R A correlation matrix, most likely this will be the average
+#'   correlation matrix outputted from the metafor package.
+#' @param method_mat Method of estimation, can either be "Loehlin" or "lavaan".
 #' @param method_null Unsure
 #' @param N Sample size
 #'
@@ -282,15 +285,17 @@ c_mat_ft <- function(model_input, R) {
 #' Self_confidence ~ Cognitive + Somatic "
 #'
 #' N <- 573
-#' model_result <- c_mat_ft(model, Br)
-#' model_fit(model_result, R = Br, method_mat  = "lavaan",
+#' model_fit(R = Br, method_mat  = "lavaan",
 #'          method_null = "sem", N)
-#' model_fit(model_result, R = Br, method_mat  = "Loehlin",
+#' model_fit(R = Br, method_mat  = "Loehlin",
 #'          method_null = "sem", N )
-model_fit <- function(model_result, R,
+model_fit <- function(model_input, R,
                      method_mat  = "lavaan",
                      method_null = "sem",
                      N) {
+
+  model_result <- c_mat_ft(model_input, R)
+
   # Implied correlation matrix
   if(method_mat == "lavaan") {
     SigmaHat <-  model_result[['S_mat']]
@@ -300,9 +305,6 @@ model_fit <- function(model_result, R,
   }
 
   path_coef <- find_B(model_result[['model_input']], R)
-
-  # # observed correlation matrix
-  # S = R
 
   # MLdisc
   MLdisc <- .5*(sum(diag(( (R - SigmaHat) %*% solve(SigmaHat) )^2)))
