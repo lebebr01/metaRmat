@@ -5,7 +5,7 @@
 \title{Path Model Function}
 \usage{
 path_model(data, model, num_obs, adjust_se = TRUE,
-  method_mat = c("Loehlin", "lavaan"), method_null = "sem", ...)
+  method_mat = "loehlin", method_null = "sem", ...)
 }
 \arguments{
 \item{data}{A list that contains the correlation matrix for model fitting
@@ -19,7 +19,12 @@ and the variance matrix. This would most likely come from the
 
 \item{adjust_se}{Adjust the standard errors to reflect the ...}
 
-\item{...}{Additional options to pass to \code{\link{sem}}.}
+\item{method_mat}{Method of estimation, can either be "loehlin" or "lavaan".
+Default is "loehlin"}
+
+\item{method_null}{Unsure}
+
+\item{...}{Currently not used.}
 }
 \description{
 This function fits the path model and returns adjusted standard errors.

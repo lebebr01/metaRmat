@@ -66,12 +66,15 @@ fit_model <- function(data, effect_size, var_cor, weights = NULL,
 #'    \code{\link{sem}} for more details about model syntax.
 #' @param num_obs Number of observations
 #' @param adjust_se Adjust the standard errors to reflect the ...
-#' @param ... Additional options to pass to \code{\link{sem}}.
+#' @param method_mat Method of estimation, can either be "loehlin" or "lavaan".
+#'   Default is "loehlin"
+#' @param method_null Unsure
+#' @param ... Currently not used.
 #'
 #' @export
 #'
 path_model <- function(data, model, num_obs, adjust_se = TRUE,
-                       method_mat = c("Loehlin", "lavaan"),
+                       method_mat = 'loehlin',
                        method_null = 'sem', ...) {
 
   fitted_model <- model_fit(model_input = model, R = data[['beta_matrix']],

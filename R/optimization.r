@@ -264,7 +264,8 @@ c_mat_ft <- function(model_input, R) {
 #'   for more details about this syntax.
 #' @param R A correlation matrix, most likely this will be the average
 #'   correlation matrix outputted from the metafor package.
-#' @param method_mat Method of estimation, can either be "Loehlin" or "lavaan".
+#' @param method_mat Method of estimation, can either be "loehlin" or "lavaan".
+#'   Default is "loehlin"
 #' @param method_null Unsure
 #' @param N Sample size
 #'
@@ -290,10 +291,10 @@ c_mat_ft <- function(model_input, R) {
 #' N <- 573
 #' model_fit(model_input = model, R = Br, method_mat  = "lavaan",
 #'          method_null = "sem", N)
-#' model_fit(model_input = model, R = Br, method_mat  = "Loehlin",
+#' model_fit(model_input = model, R = Br, method_mat  = "loehlin",
 #'          method_null = "sem", N )
 model_fit <- function(model_input, R,
-                     method_mat  = "lavaan",
+                     method_mat  = "loehlin",
                      method_null = "sem",
                      N) {
 
@@ -303,7 +304,7 @@ model_fit <- function(model_input, R,
   if(method_mat == "lavaan") {
     SigmaHat <-  model_result[['S_mat']]
   }
-  if(method_mat == "Loehlin") {
+  if(method_mat == "loehlin") {
     SigmaHat <-  model_result[['C_mat']]
   }
 
