@@ -68,8 +68,6 @@ fit_model <- function(data, effect_size, var_cor, weights = NULL,
 #' @param adjust_se Adjust the standard errors to reflect the ...
 #' @param ... Additional options to pass to \code{\link{sem}}.
 #'
-#' @importFrom lavaan sem parTable fitmeasures
-#'
 #' @export
 #'
 path_model <- function(data, model, num_obs, adjust_se = TRUE,
@@ -146,7 +144,7 @@ path_model <- function(data, model, num_obs, adjust_se = TRUE,
 
   model_output <- list(beta_matrix = data[['beta_matrix']],
                        parameter_estimates = coefficients,
-                       fit_measures = fitmeasures(fitted_model),
+                       fit_measures = fitted_model,
                        computed_var = computed_se,
                        model = model)
 

@@ -114,11 +114,7 @@ library(dplyr)
 
 model <- "## Regression paths
           Performance ~ Cognitive + Somatic + Selfconfidence
-          Selfconfidence ~ Cognitive + Somatic
-          ## Fix the variances of Cog and SO at 1
-          Cognitive ~~ 1*Cognitive
-          Somatic ~~ 1*Somatic
-          Cognitive ~~ Somatic"
+          Selfconfidence ~ Cognitive + Somatic"
 
 prep_data(becker09, becker09$N, type = 'weighted', 
           variable_names = c('Cognitive_Performance', 'Somatic_Performance',
