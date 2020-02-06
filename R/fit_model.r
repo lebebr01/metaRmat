@@ -80,7 +80,7 @@ path_model <- function(data, model, num_obs, adjust_se = TRUE,
                             method_mat = method_mat, method_null = method_null,
                             N = num_obs)
 
-  coefficients <- fitted_model[['path_coefficients']]
+  coefficients <- format_coefficients(fitted_model[['path_coefficients']])
 
   # fitted_model <- lavaan::sem(model, sample.cov = data[['beta_matrix']],
   #                             sample.nobs = num_obs, ...)
@@ -95,6 +95,9 @@ path_model <- function(data, model, num_obs, adjust_se = TRUE,
     #                       outcomes$lhs)
     #
     # variables <- lapply(lapply(num_outcomes, unlist), unique)
+
+    num_outcomes <- length(coefficients)
+    variables <- lapply(coefficients, unique_names)
 
     # formulas <- lapply(seq_along(variables), function(xx)
     #   paste0(variables[[xx]][1], " ~ ", paste(variables[[xx]][2:length(variables[[xx]])], collapse = " + "))

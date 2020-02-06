@@ -4,7 +4,8 @@
 \alias{path_model}
 \title{Path Model Function}
 \usage{
-path_model(data, model, num_obs, adjust_se = TRUE, ...)
+path_model(data, model, num_obs, adjust_se = TRUE,
+  method_mat = c("Loehlin", "lavaan"), method_null = "sem", ...)
 }
 \arguments{
 \item{data}{A list that contains the correlation matrix for model fitting

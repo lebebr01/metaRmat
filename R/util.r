@@ -29,6 +29,33 @@ matrix_subset <- function(matrix, variables) {
 
 }
 
+# format model coefficients
+format_coefficients <- function(coefficients) {
+
+  coef_names <- sapply(coefficients, names)
+  coef_names <- lapply(coef_names, format_coef_names)
+
+  coefs <- lapply(seq_along(coefficients), function(xx)
+    cbind(coef_names[[xx]], estimate = coefficients[[xx]]))
+
+  coefs
+}
+
+format_coef_names <- function(names) {
+
+  names_coef <- data.frame(trimws(
+    do.call('rbind', strsplit(names, "->"))),
+    stringsAsFactors = FALSE)
+
+  names(names_coef) <- c("predictor", "outcome")
+
+  names_coef
+}
+
+unique_names <- function(coefficients) {
+  unique(c(coefficients[['predictor']], coefficients[['outcome']]))
+}
+
 # Horrible hack to keep CRAN happy and suppress NOTES about
 # parts of the code that use non-standard evaluation.
 # See:

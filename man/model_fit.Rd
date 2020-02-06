@@ -15,7 +15,7 @@ for more details about this syntax.}
 \item{R}{A correlation matrix, most likely this will be the average
 correlation matrix outputted from the metafor package.}
 
-\item{method_mat}{Method of estimation.}
+\item{method_mat}{Method of estimation, can either be "Loehlin" or "lavaan".}
 
 \item{method_null}{Unsure}
 
@@ -44,8 +44,8 @@ Performance ~  Self_confidence  + Cognitive  + Somatic
 Self_confidence ~ Cognitive + Somatic "
 
 N <- 573
-model_fit(R = Br, method_mat  = "lavaan",
+model_fit(model_input = model, R = Br, method_mat  = "lavaan",
          method_null = "sem", N)
-model_fit(R = Br, method_mat  = "Loehlin",
+model_fit(model_input = model, R = Br, method_mat  = "Loehlin",
          method_null = "sem", N )
 }

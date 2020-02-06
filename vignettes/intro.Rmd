@@ -112,9 +112,6 @@ summary(lavaan_output)
 ```{r pipe, message = FALSE}
 library(dplyr)
 
-becker09 <- read.csv(paste0(system.file('raw_data', package = 'metaRmat'),
-                            '/Becker09.csv'))
-
 model <- "## Regression paths
           Performance ~ Cognitive + Somatic + Selfconfidence
           Selfconfidence ~ Cognitive + Somatic

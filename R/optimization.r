@@ -1,7 +1,10 @@
 #' Find regression coefficients
 #'
-#' @param model_input ...
-#' @param R Correlation matrix
+#' @param model_input Model input as a character string. Multiple models need
+#'   to be on their own line. Model syntax uses lavann like syntax, see details
+#'   for more details about this syntax.
+#' @param R A correlation matrix, most likely this will be the average
+#'   correlation matrix outputted from the metafor package.
 #' @param ...Currently not used
 #'
 #' @return A vector of regression coefficient estimates.
@@ -10,7 +13,7 @@
 find_b = function(model_input, R, ...) {
 
   if(length(grep("^\\s*#", model_input, value = TRUE)) == 0) {
-    model_input = trimws(unlist(strsplit(model_input, ".#")))[1]
+    model_input <- trimws(unlist(strsplit(model_input, ".#")))[1]
 
     if(length(grep("~", unlist(strsplit(model_input, "")))) != 1) {
       stop("Please check the model again")
@@ -285,9 +288,9 @@ c_mat_ft <- function(model_input, R) {
 #' Self_confidence ~ Cognitive + Somatic "
 #'
 #' N <- 573
-#' model_fit(R = Br, method_mat  = "lavaan",
+#' model_fit(model_input = model, R = Br, method_mat  = "lavaan",
 #'          method_null = "sem", N)
-#' model_fit(R = Br, method_mat  = "Loehlin",
+#' model_fit(model_input = model, R = Br, method_mat  = "Loehlin",
 #'          method_null = "sem", N )
 model_fit <- function(model_input, R,
                      method_mat  = "lavaan",
