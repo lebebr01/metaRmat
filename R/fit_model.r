@@ -160,48 +160,47 @@ path_model <- function(data, model, num_obs, adjust_se = TRUE,
 #' @export
 summary.metaRmat <- function(object, fit_measures = TRUE, ...) {
 
-  fixed_coef <- subset(object[['parameter_estimates']],
-                       subset = op == "~",
-                       select = c('lhs', 'rhs', 'est'))
-  names(fixed_coef) <- c('Outcome', 'Predictor', 'Estimate')
+  fixed_coef <- do.call('rbind', object[['parameter_estimates']])
 
   standard_errors <- lapply(seq_along(object[['computed_var']]), function(xx)
                             sqrt(diag(object[['computed_var']][[xx]])))
 
   fixed_coef[['standard_errors']] <- do.call('c', standard_errors)
-  fixed_coef[['test_statistic']] <- fixed_coef[['Estimate']] / fixed_coef[['standard_errors']]
+  fixed_coef[['test_statistic']] <- fixed_coef[['estimate']] / fixed_coef[['standard_errors']]
   fixed_coef[['p_value']] <- stats::pnorm(abs(fixed_coef[['test_statistic']]), lower.tail = FALSE) * 2
 
-  random_coef <- subset(object[['parameter_estimates']],
-                        subset = op == "~~",
-                        select = c('lhs', 'rhs', 'est'))
-
-  variances <- subset(random_coef, lhs == rhs,
-                      select = c('lhs', 'est'))
-  names(variances) <- c('Variable', 'Estimate')
-  variances[['Estimate']] <- round(variances[['Estimate']], 3)
-
-  variances <- paste(lapply(1:nrow(variances), function(xx)
-    paste(variances[xx, ], collapse = " = ")), collapse = "\n ")
-
-  covariances <- subset(random_coef, lhs != rhs)
-  covariances[['est']] <- round(covariances[['est']], 3)
-
-  covariances <- paste(lapply(1:nrow(covariances), function(xx)
-    paste(c(paste(covariances[1, c('lhs', 'rhs')], collapse = ' WITH '),
-            covariances[1, 'est']), collapse = ' = ')))
+  # random_coef <- subset(object[['parameter_estimates']],
+  #                       subset = op == "~~",
+  #                       select = c('lhs', 'rhs', 'est'))
+  #
+  # variances <- subset(random_coef, lhs == rhs,
+  #                     select = c('lhs', 'est'))
+  # names(variances) <- c('Variable', 'Estimate')
+  # variances[['Estimate']] <- round(variances[['Estimate']], 3)
+  #
+  # variances <- paste(lapply(1:nrow(variances), function(xx)
+  #   paste(variances[xx, ], collapse = " = ")), collapse = "\n ")
+  #
+  # covariances <- subset(random_coef, lhs != rhs)
+  # covariances[['est']] <- round(covariances[['est']], 3)
+  #
+  # covariances <- paste(lapply(1:nrow(covariances), function(xx)
+  #   paste(c(paste(covariances[1, c('lhs', 'rhs')], collapse = ' WITH '),
+  #           covariances[1, 'est']), collapse = ' = ')))
 
   if(fit_measures) {
     # fit_meas <- data.frame(type = rownames(data.frame(data[['fit_measures']])),
     #                        data.frame(data[['fit_measures']], row.names = NULL))
-    fit_meas = NULL
+    fit_meas <- object[['fit_measures']]
+  } else {
+    fit_meas <- NULL
   }
 
   structure(list(beta_matrix = data.frame(object[['beta_matrix']]),
                  model = object[['model']],
                  fit_measures = fit_meas,
-                 variance = variances,
-                 covariance = covariances,
+                 #variance = variances,
+                 #covariance = covariances,
                  fixed_coef = fixed_coef
                  ), class = "summary.metaRmat")
 
