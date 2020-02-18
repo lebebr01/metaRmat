@@ -1,6 +1,6 @@
 Package: metaRmat
 Title: Synthesis of Correlation Matrices 
-Version: 0.0.7
+Version: 0.0.8
 Authors@R: c(
    person("Brandon", "LeBeau", email = "lebebr01+metaRmat@gmail.com", role = c("aut", "cre"),
    comment = c(ORCID = "0000-0002-1265-8761")),
