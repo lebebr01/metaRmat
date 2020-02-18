@@ -53,27 +53,27 @@ jacobian_pcor <- function(R) {
   n <- nrow(R)
   Rinv <- solve(R)
 
-  nvp <- 0.5*n*(n-1)
-  Rgen <- corpcor::vec2sm(2*seq(nvp),diag=FALSE)
+  nvp <- 0.5 * n * (n - 1)
+  Rgen <- corpcor::vec2sm(2 * seq(nvp), diag=FALSE)
   diag(Rgen) <- 1
 
   ## Generates the Transition Matrix KcT ##
   vecR1 <- matrixcalc::vec(Rgen)
   vecRgen <- ifelse(vecR1==1, 0, vecR1)
 
-  if (length(Rgen)==4){
-    vecpRgen <- matrix(Rgen[2,1])
-  } else{
-    R1 <- Rgen[ ,-ncol(Rgen)]
+  if(length(Rgen) == 4){
+    vecpRgen <- matrix(Rgen[2, 1])
+  } else {
+    R1 <- Rgen[ , -ncol(Rgen)]
     R1 <- R1[-1, ]
     vecpRgen <- matrixcalc::elimination.matrix(nrow(R1)) %*%
       matrixcalc::vec(R1)
   }
 
-  for (i in 1:length(vecpRgen)){
+  for(i in 1:length(vecpRgen)){
     K1 <- ifelse(vecRgen == vecpRgen[i, 1], 1, 0)
     if(i > 1) {
-      KcInvT <- cbind(KcInvT,K1)
+      KcInvT <- cbind(KcInvT, K1)
       } else {
         KcInvT <- K1
       }
@@ -104,7 +104,7 @@ jacobian_pcor <- function(R) {
       diagRinv <- diag(dR)
       diagMatRinv <- diag(diagRinv, n, n)
 
-      dD <- -0.5*Dinv^(3/2) %*% diagMatRinv
+      dD <- -0.5 * Dinv^(3/2) %*% diagMatRinv
 
       dP <- dD %*% Rinv %*% SqDinv +
         SqDinv %*% dR %*% SqDinv +
