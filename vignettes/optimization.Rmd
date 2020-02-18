@@ -24,9 +24,7 @@ rownames(Br) <- colnames(Br)
 ## Proposed path model
 
 model <- "## Regression paths
-
           Performance ~  Self_confidence  + Cognitive  + Somatic
-
           Self_confidence ~ Cognitive + Somatic "
 
 
@@ -35,10 +33,9 @@ c_mat_ft(model, Br) # the same results with lavaan ML
 
 
 N <- 573
-model_result <- c_mat_ft(model, Br)
-model_fit(model_result, R = Br, method_mat  = "lavaan", 
+model_fit(model, R = Br, method_mat  = "lavaan", 
           method_null = "sem", N)
-model_fit(model_result, R = Br, method_mat  = "Loehlin", 
+model_fit(model, R = Br, method_mat  = "loehlin", 
           method_null = "sem", N )
 ```
 

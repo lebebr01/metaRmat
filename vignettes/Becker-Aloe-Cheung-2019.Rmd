@@ -123,13 +123,11 @@ Now, we are ready to input the average correlation matrix and its variance covar
 model <- "## Regression paths
 Performance ~ Cognitive + Somatic + Selfconfidence
 Selfconfidence ~ Cognitive + Somatic
-## Fix the variances of Cog and SO at 1
-Cognitive ~~ 1*Cognitive
-Somatic ~~ 1*Somatic
-Cognitive ~~ Somatic"
+"
 
-lavaan_output <- path_model(data = model_out_random, model = model, num_obs = sum(becker09$N))
-lavaan::summary(lavaan_output)
+path_output <- path_model(data = model_out_random, model = model, 
+                          num_obs = sum(becker09$N))
+summary(path_output)
 ```
 
 # Team 
@@ -181,13 +179,11 @@ model_out_random2 <- extract_model(random_model2,
 model <- "## Regression paths
 Performance ~ Cognitive + Somatic + Selfconfidence
 Selfconfidence ~ Cognitive + Somatic
-## Fix the variances of Cog and SO at 1
-Cognitive ~~ 1*Cognitive
-Somatic ~~ 1*Somatic
-Cognitive ~~ Somatic"
+"
 
-lavaan_output2 <- path_model(data = model_out_random2, model = model, num_obs = sum(becker09_T$N))
-lavaan::summary(lavaan_output2)
+path_output2 <- path_model(data = model_out_random2, model = model, 
+                             num_obs = sum(becker09_T$N))
+summary(path_output2)
 ```
 
 # Individual
@@ -238,14 +234,11 @@ model_out_random3 <- extract_model(random_model3,
 ```{r model_lavaan3}
 model <- "## Regression paths
 Performance ~ Cognitive + Somatic + Selfconfidence
-Selfconfidence ~ Cognitive + Somatic
-## Fix the variances of Cog and SO at 1
-Cognitive ~~ 1*Cognitive
-Somatic ~~ 1*Somatic
-Cognitive ~~ Somatic"
+Selfconfidence ~ Cognitive + Somatic"
 
-lavaan_output3 <- path_model(data = model_out_random3, model = model, num_obs = sum(becker09_I$N))
-lavaan::summary(lavaan_output3)
+path_output3 <- path_model(data = model_out_random3, model = model, 
+                           num_obs = sum(becker09_I$N))
+lavaan::summary(path_output3)
 ```
 
 # Partial correlation matrix
