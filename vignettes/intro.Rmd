@@ -41,7 +41,7 @@ olkin_siotani(becker09_list, becker09$N, type = 'weighted')
 ```
 
 # Master Prep Data Function
-```{r prep_data}
+```{r prep_data, eval = FALSE}
 input_metafor <- prep_data(becker09, becker09$N, type = 'weighted', 
           variable_names = c('Cognitive_Performance', 'Somatic_Performance',
                              'Selfconfidence_Performance', 
@@ -58,7 +58,7 @@ random_model <- fit_model(data = input_metafor, effect_size = 'yi',
 ```
 
 # Extract model data
-```{r extract_model_data}
+```{r extract_model_data, eval = FALSE}
 model_out_fixed <- extract_model(fixed_model, 
                                  variable_names = c('Cognitive_Performance',
                                                     'Somatic_Performance',
@@ -76,7 +76,7 @@ model_out_random <- extract_model(random_model,
 ```
 
 # Fit model with lavaan
-```{r model_lavaan}
+```{r path_model, eval = FALSE}
 model <- "## Regression paths
           Performance ~ Cognitive + Somatic + Selfconfidence
           Selfconfidence ~ Cognitive + Somatic"
@@ -87,7 +87,7 @@ summary(path_output)
 ```
 
 # Fit reduced model
-```{r}
+```{r red_path_model, eval = FALSE}
 model <- "## Regression paths
           Performance ~ Cognitive + Somatic"
 
@@ -98,7 +98,7 @@ summary(path_output)
 
 
 # Functions work with pipe `%>%`
-```{r pipe, message = FALSE}
+```{r pipe, message = FALSE, eval = FALSE}
 library(dplyr)
 
 model <- "## Regression paths
