@@ -4,22 +4,38 @@
 \alias{path_model}
 \title{Path Model Function}
 \usage{
-path_model(data, model, num_obs, adjust_se = TRUE, ...)
+path_model(
+  data,
+  model,
+  num_obs,
+  adjust_se = TRUE,
+  method_mat = "loehlin",
+  method_null = "sem",
+  ...
+)
 }
 \arguments{
 \item{data}{A list that contains the correlation matrix for model fitting
 and the variance matrix. This would most likely come from the
 \code{\link{extract_model}} function.}
 
-\item{model}{This is model syntax specified in the format by lavaan. See
-\code{\link{sem}} for more details about model syntax.}
+\item{model}{This is model syntax specified in the format by lavaan.}
 
 \item{num_obs}{Number of observations}
 
 \item{adjust_se}{Adjust the standard errors to reflect the ...}
 
-\item{...}{Additional options to pass to \code{\link{sem}}.}
+\item{method_mat}{Method of estimation, can either be "loehlin" or "lavaan".
+Default is "loehlin"}
+
+\item{method_null}{Unsure}
+
+\item{...}{Currently not used.}
 }
 \description{
 This function fits the path model and returns adjusted standard errors.
+}
+\seealso{
+See \url{https://lavaan.ugent.be/} for more information on lavaan
+syntax.
 }

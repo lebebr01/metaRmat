@@ -4,15 +4,18 @@
 \alias{model_fit}
 \title{Model fitting function}
 \usage{
-model_fit(model_result, R, method_mat = "lavaan", method_null = "sem",
-  N)
+model_fit(model_input, R, method_mat = "loehlin", method_null = "sem", N)
 }
 \arguments{
-\item{model_result}{A result from c_mat_ft}
+\item{model_input}{Model input as a character string. Multiple models need
+to be on their own line. Model syntax uses lavann like syntax, see details
+for more details about this syntax.}
 
-\item{R}{Correlation matrix}
+\item{R}{A correlation matrix, most likely this will be the average
+correlation matrix outputted from the metafor package.}
 
-\item{method_mat}{Method of estimation.}
+\item{method_mat}{Method of estimation, can either be "loehlin" or "lavaan".
+Default is "loehlin"}
 
 \item{method_null}{Unsure}
 
@@ -41,9 +44,8 @@ Performance ~  Self_confidence  + Cognitive  + Somatic
 Self_confidence ~ Cognitive + Somatic "
 
 N <- 573
-model_result <- c_mat_ft(model, Br)
-model_fit(model_result, R = Br, method_mat  = "lavaan",
+model_fit(model_input = model, R = Br, method_mat  = "lavaan",
          method_null = "sem", N)
-model_fit(model_result, R = Br, method_mat  = "Loehlin",
+model_fit(model_input = model, R = Br, method_mat  = "loehlin",
          method_null = "sem", N )
 }

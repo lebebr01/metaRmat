@@ -7,32 +7,36 @@
 #' @export
 jacobian_stdslopes <- function(R) {
 
-  n <-ncol(R)
-  JacMat <- matrix(nrow=n-1, ncol=0.5*n*(n-1))
+  n <- ncol(R)
+  JacMat <- matrix(nrow = n - 1, ncol = 0.5 * n * (n - 1))
 
   #Partition of R for standardized slopes
-  R01 <- R[2:n,1]
-  R11 <- R[2:n,2:n]
+  R01 <- R[2:n, 1]
+  R11 <- R[2:n, 2:n]
 
   R11inv <- solve(R11)
 
-  for (i in 1:(n-1)) {
-    Ji <- as.vector(Matrix::sparseVector(1, i, n-1))
-    JacMat[,i] <- R11inv %*% Ji
+
+  for (i in 1:(n - 1)) {
+    Ji <- as.vector(Matrix::sparseVector(1, i, n - 1))
+    JacMat[, i] <- R11inv %*% Ji
   }
 
-  k <- n
+  if (n > 2){
+    k <- n
 
-  for (i in 1:(n-2)){
-    for (j in (i+1):(n-1)){
+    for (i in 1:(n - 2)){
+      for (j in (i + 1):(n - 1)){
 
-      Jij <- as.matrix(Matrix::sparseMatrix(c(i,j), c(j,i),
-                                    x=1, dims=c(n-1,n-1)))
-      JacMat[,k] <- -R11inv %*% Jij %*% R11inv %*% R01
+        Jij <- as.matrix(Matrix::sparseMatrix(c(i, j), c(j, i),
+                                              x=1, dims=c(n-1, n-1)))
+        JacMat[, k] <- -R11inv %*% Jij %*% R11inv %*% R01
 
-      k <- k+1
+        k <- k + 1
+      }
     }
   }
+
   JacMat
 }
 
@@ -49,27 +53,27 @@ jacobian_pcor <- function(R) {
   n <- nrow(R)
   Rinv <- solve(R)
 
-  nvp <- 0.5*n*(n-1)
-  Rgen <- corpcor::vec2sm(2*seq(nvp),diag=FALSE)
+  nvp <- 0.5 * n * (n - 1)
+  Rgen <- corpcor::vec2sm(2 * seq(nvp), diag=FALSE)
   diag(Rgen) <- 1
 
   ## Generates the Transition Matrix KcT ##
   vecR1 <- matrixcalc::vec(Rgen)
   vecRgen <- ifelse(vecR1==1, 0, vecR1)
 
-  if (length(Rgen)==4){
-    vecpRgen <- matrix(Rgen[2,1])
-  } else{
-    R1 <- Rgen[ ,-ncol(Rgen)]
+  if(length(Rgen) == 4){
+    vecpRgen <- matrix(Rgen[2, 1])
+  } else {
+    R1 <- Rgen[ , -ncol(Rgen)]
     R1 <- R1[-1, ]
     vecpRgen <- matrixcalc::elimination.matrix(nrow(R1)) %*%
       matrixcalc::vec(R1)
   }
 
-  for (i in 1:length(vecpRgen)){
+  for(i in 1:length(vecpRgen)){
     K1 <- ifelse(vecRgen == vecpRgen[i, 1], 1, 0)
     if(i > 1) {
-      KcInvT <- cbind(KcInvT,K1)
+      KcInvT <- cbind(KcInvT, K1)
       } else {
         KcInvT <- K1
       }
@@ -100,7 +104,7 @@ jacobian_pcor <- function(R) {
       diagRinv <- diag(dR)
       diagMatRinv <- diag(diagRinv, n, n)
 
-      dD <- -0.5*Dinv^(3/2) %*% diagMatRinv
+      dD <- -0.5 * Dinv^(3/2) %*% diagMatRinv
 
       dP <- dD %*% Rinv %*% SqDinv +
         SqDinv %*% dR %*% SqDinv +

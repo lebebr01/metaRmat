@@ -62,35 +62,48 @@ fit_model <- function(data, effect_size, var_cor, weights = NULL,
 #' @param data A list that contains the correlation matrix for model fitting
 #'   and the variance matrix. This would most likely come from the
 #'   \code{\link{extract_model}} function.
-#' @param model This is model syntax specified in the format by lavaan. See
-#'    \code{\link{sem}} for more details about model syntax.
+#' @param model This is model syntax specified in the format by lavaan.
 #' @param num_obs Number of observations
 #' @param adjust_se Adjust the standard errors to reflect the ...
-#' @param ... Additional options to pass to \code{\link{sem}}.
-#'
-#' @importFrom lavaan sem parTable fitmeasures
+#' @param method_mat Method of estimation, can either be "loehlin" or "lavaan".
+#'   Default is "loehlin"
+#' @param method_null Unsure
+#' @param ... Currently not used.
+#' @seealso See \url{https://lavaan.ugent.be/} for more information on lavaan
+#' syntax.
 #'
 #' @export
 #'
-path_model <- function(data, model, num_obs, adjust_se = TRUE, ...) {
+path_model <- function(data, model, num_obs, adjust_se = TRUE,
+                       method_mat = 'loehlin',
+                       method_null = 'sem', ...) {
 
-  fitted_model <- lavaan::sem(model, sample.cov = data[['beta_matrix']],
-                              sample.nobs = num_obs, ...)
+  fitted_model <- model_fit(model_input = model, R = data[['beta_matrix']],
+                            method_mat = method_mat, method_null = method_null,
+                            N = num_obs)
 
-  coefficients <- lavaan::parTable(fitted_model)
+  coefficients <- format_coefficients(fitted_model[['path_coefficients']])
+
+  # fitted_model <- lavaan::sem(model, sample.cov = data[['beta_matrix']],
+  #                             sample.nobs = num_obs, ...)
+  #
+  # coefficients <- lavaan::parTable(fitted_model)
 
   if(adjust_se) {
-    outcomes <- subset(coefficients,
-                       subset = op == '~',
-                       select = c('lhs', 'rhs'))
-    num_outcomes <- split(outcomes,
-                          outcomes$lhs)
+    # outcomes <- subset(coefficients,
+    #                    subset = op == '~',
+    #                    select = c('lhs', 'rhs'))
+    # num_outcomes <- split(outcomes,
+    #                       outcomes$lhs)
+    #
+    # variables <- lapply(lapply(num_outcomes, unlist), unique)
 
-    variables <- lapply(lapply(num_outcomes, unlist), unique)
+    num_outcomes <- length(coefficients)
+    variables <- lapply(coefficients, unique_names)
 
-    formulas <- lapply(seq_along(variables), function(xx)
-      paste0(variables[[xx]][1], " ~ ", paste(variables[[xx]][2:length(variables[[xx]])], collapse = " + "))
-      )
+    # formulas <- lapply(seq_along(variables), function(xx)
+    #   paste0(variables[[xx]][1], " ~ ", paste(variables[[xx]][2:length(variables[[xx]])], collapse = " + "))
+    #   )
 
     data_list <- lapply(seq_along(variables),
                         function(xx)
@@ -135,7 +148,7 @@ path_model <- function(data, model, num_obs, adjust_se = TRUE, ...) {
 
   model_output <- list(beta_matrix = data[['beta_matrix']],
                        parameter_estimates = coefficients,
-                       fit_measures = fitmeasures(fitted_model),
+                       fit_measures = fitted_model,
                        computed_var = computed_se,
                        model = model)
 
@@ -148,48 +161,47 @@ path_model <- function(data, model, num_obs, adjust_se = TRUE, ...) {
 #' @export
 summary.metaRmat <- function(object, fit_measures = TRUE, ...) {
 
-  fixed_coef <- subset(object[['parameter_estimates']],
-                       subset = op == "~",
-                       select = c('lhs', 'rhs', 'est'))
-  names(fixed_coef) <- c('Outcome', 'Predictor', 'Estimate')
+  fixed_coef <- do.call('rbind', object[['parameter_estimates']])
 
   standard_errors <- lapply(seq_along(object[['computed_var']]), function(xx)
                             sqrt(diag(object[['computed_var']][[xx]])))
 
   fixed_coef[['standard_errors']] <- do.call('c', standard_errors)
-  fixed_coef[['test_statistic']] <- fixed_coef[['Estimate']] / fixed_coef[['standard_errors']]
+  fixed_coef[['test_statistic']] <- fixed_coef[['estimate']] / fixed_coef[['standard_errors']]
   fixed_coef[['p_value']] <- stats::pnorm(abs(fixed_coef[['test_statistic']]), lower.tail = FALSE) * 2
 
-  random_coef <- subset(object[['parameter_estimates']],
-                        subset = op == "~~",
-                        select = c('lhs', 'rhs', 'est'))
-
-  variances <- subset(random_coef, lhs == rhs,
-                      select = c('lhs', 'est'))
-  names(variances) <- c('Variable', 'Estimate')
-  variances[['Estimate']] <- round(variances[['Estimate']], 3)
-
-  variances <- paste(lapply(1:nrow(variances), function(xx)
-    paste(variances[xx, ], collapse = " = ")), collapse = "\n ")
-
-  covariances <- subset(random_coef, lhs != rhs)
-  covariances[['est']] <- round(covariances[['est']], 3)
-
-  covariances <- paste(lapply(1:nrow(covariances), function(xx)
-    paste(c(paste(covariances[1, c('lhs', 'rhs')], collapse = ' WITH '),
-            covariances[1, 'est']), collapse = ' = ')))
+  # random_coef <- subset(object[['parameter_estimates']],
+  #                       subset = op == "~~",
+  #                       select = c('lhs', 'rhs', 'est'))
+  #
+  # variances <- subset(random_coef, lhs == rhs,
+  #                     select = c('lhs', 'est'))
+  # names(variances) <- c('Variable', 'Estimate')
+  # variances[['Estimate']] <- round(variances[['Estimate']], 3)
+  #
+  # variances <- paste(lapply(1:nrow(variances), function(xx)
+  #   paste(variances[xx, ], collapse = " = ")), collapse = "\n ")
+  #
+  # covariances <- subset(random_coef, lhs != rhs)
+  # covariances[['est']] <- round(covariances[['est']], 3)
+  #
+  # covariances <- paste(lapply(1:nrow(covariances), function(xx)
+  #   paste(c(paste(covariances[1, c('lhs', 'rhs')], collapse = ' WITH '),
+  #           covariances[1, 'est']), collapse = ' = ')))
 
   if(fit_measures) {
     # fit_meas <- data.frame(type = rownames(data.frame(data[['fit_measures']])),
     #                        data.frame(data[['fit_measures']], row.names = NULL))
-    fit_meas = NULL
+    fit_meas <- object[['fit_measures']]
+  } else {
+    fit_meas <- NULL
   }
 
   structure(list(beta_matrix = data.frame(object[['beta_matrix']]),
                  model = object[['model']],
                  fit_measures = fit_meas,
-                 variance = variances,
-                 covariance = covariances,
+                 #variance = variances,
+                 #covariance = covariances,
                  fixed_coef = fixed_coef
                  ), class = "summary.metaRmat")
 
