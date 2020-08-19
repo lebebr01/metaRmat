@@ -1,6 +1,6 @@
 Package: metaRmat
 Title: Synthesis of Correlation Matrices 
-Version: 0.0.8
+Version: 0.0.9
 Authors@R: c(
    person("Brandon", "LeBeau", email = "lebebr01+metaRmat@gmail.com", role = c("aut", "cre"),
    comment = c(ORCID = "0000-0002-1265-8761")),
@@ -26,4 +26,4 @@ Suggests: knitr,
     dplyr,
     lavaan
 VignetteBuilder: knitr
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.1
