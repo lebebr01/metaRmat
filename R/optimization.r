@@ -8,7 +8,7 @@
 #' @param ...Currently not used
 #'
 #' @return A vector of regression coefficient estimates.
-#'
+#' @importFrom stats as.formula
 #' @export
 find_b = function(model_input, R, ...) {
 
@@ -59,6 +59,7 @@ find_b = function(model_input, R, ...) {
 #'   correlation matrix outputted from the metafor package.
 #'
 #' @return A vector of names
+#' @importFrom stats as.formula
 #' @export
 Mul_R2 = function(model_input, R) {
 
@@ -271,7 +272,7 @@ c_mat_ft <- function(model_input, R) {
 #'
 #' @return A list of fit indices.
 #' @export
-#'
+#' @importFrom stats pchisq optimize
 #' @examples
 #' Br <-  matrix(c(1.00000000, -0.09773331, -0.1755029,  0.3186775,
 #' -0.09773331,  1.00000000,  0.5271873, -0.4175596,
