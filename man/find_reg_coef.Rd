@@ -14,7 +14,7 @@ for more details about this syntax.}
 \item{R}{A correlation matrix, most likely this will be the average
 correlation matrix outputted from the metafor package.}
 
-\item{...Currently}{not used}
+\item{...}{Currently not used}
 }
 \value{
 A vector of regression coefficient estimates.

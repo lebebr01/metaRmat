@@ -5,7 +5,7 @@
 #'   for more details about this syntax.
 #' @param R A correlation matrix, most likely this will be the average
 #'   correlation matrix outputted from the metafor package.
-#' @param ...Currently not used
+#' @param ... Currently not used
 #'
 #' @return A vector of regression coefficient estimates.
 #' @importFrom stats as.formula
