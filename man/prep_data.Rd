@@ -4,8 +4,14 @@
 \alias{prep_data}
 \title{Prep Data for Metafor}
 \usage{
-prep_data(data, n, type = c("average", "weighted", "simple"),
-  missing = "remove", variable_names = NULL, ID = NULL)
+prep_data(
+  data,
+  n,
+  type = c("average", "weighted", "simple"),
+  missing = "remove",
+  variable_names = NULL,
+  ID = NULL
+)
 }
 \arguments{
 \item{data}{Raw data input}

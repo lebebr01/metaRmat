@@ -4,9 +4,19 @@
 \alias{fit_model}
 \title{Fit meta analysis models with metafor}
 \usage{
-fit_model(data, effect_size, var_cor, weights = NULL,
-  moderators = NULL, random_params = NULL, structure = "UN",
-  test = "z", intercept = FALSE, estimation_method = "REML", ...)
+fit_model(
+  data,
+  effect_size,
+  var_cor,
+  weights = NULL,
+  moderators = NULL,
+  random_params = NULL,
+  structure = "UN",
+  test = "z",
+  intercept = FALSE,
+  estimation_method = "REML",
+  ...
+)
 }
 \arguments{
 \item{data}{Raw data input}

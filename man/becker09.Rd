@@ -4,7 +4,8 @@
 \name{becker09}
 \alias{becker09}
 \title{Becker 2009 data}
-\format{A dataframe with 10 rows and 9 columns:
+\format{
+A dataframe with 10 rows and 9 columns:
 \describe{
    \item{ID}{Study ID}
    \item{N}{Study sample size}
@@ -18,7 +19,8 @@
    Cognitive}
    \item{Selfconfidence_Somatic}{Correlation between Self Confidence and
    Somatic}
-   }}
+   }
+}
 \usage{
 becker09
 }

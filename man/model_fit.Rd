@@ -4,8 +4,7 @@
 \alias{model_fit}
 \title{Model fitting function}
 \usage{
-model_fit(model_input, R, method_mat = "loehlin", method_null = "sem",
-  N)
+model_fit(model_input, R, method_mat = "loehlin", method_null = "sem", N)
 }
 \arguments{
 \item{model_input}{Model input as a character string. Multiple models need

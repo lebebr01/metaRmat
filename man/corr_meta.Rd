@@ -4,11 +4,26 @@
 \alias{corr_meta}
 \title{Master function}
 \usage{
-corr_meta(data, n, type = c("average", "weighted", "simple"),
-  missing = "remove", variable_names = NULL, ID = NULL, effect_size,
-  var_cor, weights = NULL, moderators = NULL, random_params = NULL,
-  structure = "CS", test = "t", intercept = FALSE,
-  estimation_method = "REML", model = NULL, num_obs = NULL, ...)
+corr_meta(
+  data,
+  n,
+  type = c("average", "weighted", "simple"),
+  missing = "remove",
+  variable_names = NULL,
+  ID = NULL,
+  effect_size,
+  var_cor,
+  weights = NULL,
+  moderators = NULL,
+  random_params = NULL,
+  structure = "CS",
+  test = "t",
+  intercept = FALSE,
+  estimation_method = "REML",
+  model = NULL,
+  num_obs = NULL,
+  ...
+)
 }
 \arguments{
 \item{data}{Raw data input}
