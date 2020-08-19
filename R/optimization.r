@@ -10,7 +10,7 @@
 #' @return A vector of regression coefficient estimates.
 #' @importFrom stats as.formula
 #' @export
-find_b = function(model_input, R, ...) {
+find_reg_coef = function(model_input, R, ...) {
 
   if(length(grep("^\\s*#", model_input, value = TRUE)) == 0) {
     model_input <- trimws(unlist(strsplit(model_input, ".#")))[1]
@@ -138,7 +138,7 @@ find_B <- function(model_input, R) {
   model_line <- model_line[which(model_line != "")]
 
   Result <- sapply(seq_along(model_line), function(xx) {
-    find_b(model_line[xx], R)
+    find_reg_coef(model_line[xx], R)
     })
 
   if(sum(sapply(Result, is.null)) > 0) {
