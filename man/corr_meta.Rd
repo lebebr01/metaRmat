@@ -74,8 +74,7 @@ See \code{\link{rma.mv}} for more details.}
 \item{estimation_method}{Estimation method to pass on to metafor. Default is
 "REML". See \code{\link{rma.mv}} for more details.}
 
-\item{model}{This is model syntax specified in the format by lavaan. See
-\code{\link{sem}} for more details about model syntax.}
+\item{model}{This is model syntax specified in the format by lavaan.}
 
 \item{num_obs}{Number of observations}
 
@@ -84,4 +83,8 @@ for more details.}
 }
 \description{
 This function does all of the steps in a single unified function.
+}
+\seealso{
+See \url{https://lavaan.ugent.be/} for more information on lavaan
+syntax.
 }

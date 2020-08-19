@@ -35,11 +35,12 @@
 #'   See \code{\link{rma.mv}} for more details.
 #' @param estimation_method Estimation method to pass on to metafor. Default is
 #'   "REML". See \code{\link{rma.mv}} for more details.
-#' @param model This is model syntax specified in the format by lavaan. See
-#'    \code{\link{sem}} for more details about model syntax.
+#' @param model This is model syntax specified in the format by lavaan.
 #' @param num_obs Number of observations
 #' @param ... Additional parameters passed to metafor. See \code{\link{rma.mv}}
 #'   for more details.
+#' @seealso See \url{https://lavaan.ugent.be/} for more information on lavaan
+#' syntax.
 #'
 #' @export
 corr_meta <- function(data, n, type = c('average','weighted', 'simple'),

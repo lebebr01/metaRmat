@@ -62,14 +62,15 @@ fit_model <- function(data, effect_size, var_cor, weights = NULL,
 #' @param data A list that contains the correlation matrix for model fitting
 #'   and the variance matrix. This would most likely come from the
 #'   \code{\link{extract_model}} function.
-#' @param model This is model syntax specified in the format by lavaan. See
-#'    \code{\link{sem}} for more details about model syntax.
+#' @param model This is model syntax specified in the format by lavaan.
 #' @param num_obs Number of observations
 #' @param adjust_se Adjust the standard errors to reflect the ...
 #' @param method_mat Method of estimation, can either be "loehlin" or "lavaan".
 #'   Default is "loehlin"
 #' @param method_null Unsure
 #' @param ... Currently not used.
+#' @seealso See \url{https://lavaan.ugent.be/} for more information on lavaan
+#' syntax.
 #'
 #' @export
 #'

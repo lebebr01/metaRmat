@@ -19,8 +19,7 @@ path_model(
 and the variance matrix. This would most likely come from the
 \code{\link{extract_model}} function.}
 
-\item{model}{This is model syntax specified in the format by lavaan. See
-\code{\link{sem}} for more details about model syntax.}
+\item{model}{This is model syntax specified in the format by lavaan.}
 
 \item{num_obs}{Number of observations}
 
@@ -35,4 +34,8 @@ Default is "loehlin"}
 }
 \description{
 This function fits the path model and returns adjusted standard errors.
+}
+\seealso{
+See \url{https://lavaan.ugent.be/} for more information on lavaan
+syntax.
 }
