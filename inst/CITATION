@@ -4,11 +4,13 @@ citHeader("To cite pdfsearch in publications, please use:")
 citEntry(entry = "Manual",
          author = personList(as.person("Brandon LeBeau"),
                              as.person("Ariel M. Aloe"),
-                             as.person("Betsy Jane Becker")),
+                             as.person("Betsy Jane Becker"),
+                             as.person("Seohee Park"),
+                             as.person("Roberto C. Toro Rodriguez")),
          title = "{metaRmat}: Synthesis of Correlation Matrices",
-         year = "2018",
+         year = "2020",
          note = "The development of this package has been partially supported by a collaborative grant to Betsy J. Becker and Ariel M. Aloe by the National Science Foundation (DRL-1252338 and DRL-1550169). Any opinions, findings, and conclusions or recommendations expressed in this material are those of the authors and do not necessarily reflect the views of the National Science Foundation",
-         textVersion = "Brandon LeBeau, Ariel M. Aloe, Betsy Jane Becker. (2018).metaRmat: Synthesis of Correlation Matrices. Beta version 0.0.2"
+         textVersion = "Brandon LeBeau, Ariel M. Aloe, Betsy Jane Becker, Seohee Park, Roberto C. Toro Rodriguez. (2020).metaRmat: Synthesis of Correlation Matrices. Beta version 0.1.0"
 )
 
 
