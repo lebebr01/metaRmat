@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -37,12 +39,6 @@
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -79,9 +75,9 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Optimization with metaRmat</h1>
-                        <h4 class="author">Vignette Author</h4>
+                        <h4 data-toc-skip class="author">Vignette Author</h4>
             
-            <h4 class="date">2020-08-20</h4>
+            <h4 data-toc-skip class="date">2021-03-05</h4>
       
       
       <div class="hidden name"><code>optimization.Rmd</code></div>
@@ -90,31 +86,28 @@
 
     
     
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">metaRmat</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">metaRmat</span><span class="op">)</span>
 
-<span class="kw">Br</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1.00000000</span>, <span class="op">-</span><span class="fl">0.09773331</span>, <span class="op">-</span><span class="fl">0.1755029</span>,  <span class="fl">0.3186775</span>,
+<span class="va">Br</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.00000000</span>, <span class="op">-</span><span class="fl">0.09773331</span>, <span class="op">-</span><span class="fl">0.1755029</span>,  <span class="fl">0.3186775</span>,
               <span class="op">-</span><span class="fl">0.09773331</span>,  <span class="fl">1.00000000</span>,  <span class="fl">0.5271873</span>, <span class="op">-</span><span class="fl">0.4175596</span>,
               <span class="op">-</span><span class="fl">0.17550292</span>,  <span class="fl">0.5271872</span>,  <span class="fl">1.0000000</span>, <span class="op">-</span><span class="fl">0.4006848</span>,
-              <span class="fl">0.31867753</span>, <span class="op">-</span><span class="fl">0.41755963</span>, <span class="op">-</span><span class="fl">0.4006848</span>,  <span class="fl">1.0000000</span>), 
-              nrow = <span class="fl">4</span>, byrow = <span class="fl">TRUE</span>) 
+              <span class="fl">0.31867753</span>, <span class="op">-</span><span class="fl">0.41755963</span>, <span class="op">-</span><span class="fl">0.4006848</span>,  <span class="fl">1.0000000</span><span class="op">)</span>, 
+              nrow <span class="op">=</span> <span class="fl">4</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> 
 
-<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="kw">Br</span>) <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Performance"</span>,  <span class="st">"Self_confidence"</span>,  <span class="st">"Cognitive"</span>, <span class="st">"Somatic"</span> )
+<span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">Br</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Performance"</span>,  <span class="st">"Self_confidence"</span>,  <span class="st">"Cognitive"</span>, <span class="st">"Somatic"</span> <span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="kw">Br</span>) <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="kw">Br</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">Br</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">Br</span><span class="op">)</span>
 
 
 <span class="co">## Proposed path model</span>
 
-<span class="kw">model</span> <span class="op">&lt;-</span> <span class="st">"## Regression paths
+<span class="va">model</span> <span class="op">&lt;-</span> <span class="st">"## Regression paths
           Performance ~  Self_confidence  + Cognitive  + Somatic
           Self_confidence ~ Cognitive + Somatic "</span>
-          Performance ~  Self_confidence  + Cognitive  + Somatic
-          Self_confidence ~ Cognitive + Somatic "
 
 
-<span class="fu"><a href="../reference/find_B.html">find_B</a></span>(<span class="kw">model</span>, <span class="kw">Br</span>)
-</pre></div>
+<span class="fu"><a href="../reference/find_B.html">find_B</a></span><span class="op">(</span><span class="va">model</span>, <span class="va">Br</span><span class="op">)</span></code></pre></div>
 <pre><code>## [[1]]
 ## Self_confidence -&gt; Performance       Cognitive -&gt; Performance 
 ##                     0.08316153                    -0.09261001 
@@ -124,9 +117,8 @@
 ## [[2]]
 ## Cognitive -&gt; Self_confidence   Somatic -&gt; Self_confidence 
 ##                    0.4287053                   -0.2457839</code></pre>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="fu"><a href="../reference/c_mat_ft.html">c_mat_ft</a></span>(<span class="kw">model</span>, <span class="kw">Br</span>) <span class="co"># the same results with lavaan ML</span>
-</pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/c_mat_ft.html">c_mat_ft</a></span><span class="op">(</span><span class="va">model</span>, <span class="va">Br</span><span class="op">)</span> <span class="co"># the same results with lavaan ML</span></code></pre></div>
 <pre><code>## $model_input
 ## [1] "## Regression paths\n          Performance ~  Self_confidence  + Cognitive  + Somatic\n          Self_confidence ~ Cognitive + Somatic "
 ## 
@@ -167,11 +159,10 @@
 ## 
 ## $df
 ## [1] 2</code></pre>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="kw">N</span> <span class="op">&lt;-</span> <span class="fl">573</span>
-<span class="fu"><a href="../reference/model_fit.html">model_fit</a></span>(<span class="kw">model</span>, R = <span class="kw">Br</span>, method_mat  = <span class="st">"lavaan"</span>, 
-          method_null = <span class="st">"sem"</span>, <span class="kw">N</span>)
-</pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">N</span> <span class="op">&lt;-</span> <span class="fl">573</span>
+<span class="fu"><a href="../reference/model_fit.html">model_fit</a></span><span class="op">(</span><span class="va">model</span>, R <span class="op">=</span> <span class="va">Br</span>, method_mat  <span class="op">=</span> <span class="st">"lavaan"</span>, 
+          method_null <span class="op">=</span> <span class="st">"sem"</span>, <span class="va">N</span><span class="op">)</span></code></pre></div>
 <pre><code>## $path_coefficients
 ## $path_coefficients[[1]]
 ## Self_confidence -&gt; Performance       Cognitive -&gt; Performance 
@@ -206,10 +197,9 @@
 ## 
 ## $SRMR
 ## [1] 0.2672185</code></pre>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="fu"><a href="../reference/model_fit.html">model_fit</a></span>(<span class="kw">model</span>, R = <span class="kw">Br</span>, method_mat  = <span class="st">"loehlin"</span>, 
-          method_null = <span class="st">"sem"</span>, <span class="kw">N</span> )
-</pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/model_fit.html">model_fit</a></span><span class="op">(</span><span class="va">model</span>, R <span class="op">=</span> <span class="va">Br</span>, method_mat  <span class="op">=</span> <span class="st">"loehlin"</span>, 
+          method_null <span class="op">=</span> <span class="st">"sem"</span>, <span class="va">N</span> <span class="op">)</span></code></pre></div>
 <pre><code>## $path_coefficients
 ## $path_coefficients[[1]]
 ## Self_confidence -&gt; Performance       Cognitive -&gt; Performance 
@@ -255,11 +245,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Brandon LeBeau, Ariel M. Aloe.</p>
+  <p></p>
+<p>Developed by Brandon LeBeau, Ariel M. Aloe.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>
@@ -267,6 +259,8 @@
 
   
 
+
+  
 
   </body>
 </html>

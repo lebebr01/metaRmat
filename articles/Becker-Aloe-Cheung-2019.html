@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -37,12 +39,6 @@
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -79,9 +75,9 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Example Chapter Becker Aloe Cheung</h1>
-                        <h4 class="author">Becker Aloe Cheung</h4>
+                        <h4 data-toc-skip class="author">Becker Aloe Cheung</h4>
             
-            <h4 class="date">2020-08-20</h4>
+            <h4 data-toc-skip class="date">2021-03-05</h4>
       
       
       <div class="hidden name"><code>Becker-Aloe-Cheung-2019.Rmd</code></div>
@@ -91,34 +87,32 @@
     
     
 <p>We load the necessary packages as well as the data set for the example. Because for this example we are using only complete data we remove the the two studies with <code>NA</code> (i.e., Study 6 and Study 17).</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">metaRmat</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://www.metafor-project.org">metafor</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://strimmerlab.org/software/corpcor">corpcor</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://Matrix.R-forge.R-project.org">Matrix</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">matrixcalc</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">metaRmat</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://www.metafor-project.org" class="external-link">metafor</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://strimmerlab.org/software/corpcor/" class="external-link">corpcor</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://Matrix.R-forge.R-project.org/" class="external-link">Matrix</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">matrixcalc</span><span class="op">)</span>
 
-<span class="kw">becker09</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span>(<span class="kw">becker09</span>) <span class="co"># ommiting studies with NA</span>
-</pre></div>
+<span class="va">becker09</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html" class="external-link">na.omit</a></span><span class="op">(</span><span class="va">becker09</span><span class="op">)</span> <span class="co"># ommiting studies with NA</span></code></pre></div>
 <p>Next, we create a list, which will be imputed in our other functions.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="kw">becker09_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/df_to_corr.html">df_to_corr</a></span>(<span class="kw">becker09</span>, 
-                            variables = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'Cognitive_Performance'</span>,
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">becker09_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/df_to_corr.html">df_to_corr</a></span><span class="op">(</span><span class="va">becker09</span>, 
+                            variables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Cognitive_Performance'</span>,
                                           <span class="st">'Somatic_Performance'</span>,
                                           <span class="st">'Selfconfidence_Performance'</span>, 
                                           <span class="st">'Somatic_Cognitive'</span>,
                                           <span class="st">'Selfconfidence_Cognitive'</span>,
-                                          <span class="st">'Selfconfidence_Somatic'</span>),
-                            ID = <span class="st">'ID'</span>)
-</pre></div>
+                                          <span class="st">'Selfconfidence_Somatic'</span><span class="op">)</span>,
+                            ID <span class="op">=</span> <span class="st">'ID'</span><span class="op">)</span></code></pre></div>
 <div id="calculate-os" class="section level2">
 <h2 class="hasAnchor">
 <a href="#calculate-os" class="anchor"></a>Calculate OS</h2>
 <p>There are currently three options for the variance-covariance matrix of the correlation matrix (i.e, simple, average, and weighted) for this example we selected the weighted option.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="co">#olkin_siotani(becker09_list, becker09$N, type = 'simple')</span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">#olkin_siotani(becker09_list, becker09$N, type = 'simple')</span>
 <span class="co">#olkin_siotani(becker09_list, becker09$N, type = 'average')</span>
-<span class="fu"><a href="../reference/olkin_siotani.html">olkin_siotani</a></span>(<span class="kw">becker09_list</span>, <span class="kw">becker09</span><span class="op">$</span><span class="kw">N</span>, type = <span class="st">'weighted'</span>)
+<span class="fu"><a href="../reference/olkin_siotani.html">olkin_siotani</a></span><span class="op">(</span><span class="va">becker09_list</span>, <span class="va">becker09</span><span class="op">$</span><span class="va">N</span>, type <span class="op">=</span> <span class="st">'weighted'</span><span class="op">)</span>
 <span class="co">#&gt; [[1]]</span>
 <span class="co">#&gt;               [,1]          [,2]          [,3]          [,4]          [,5]</span>
 <span class="co">#&gt; [1,]  0.0068964508  0.0034592598 -0.0024249951 -0.0007709388  0.0019806619</span>
@@ -245,28 +239,27 @@
 <span class="co">#&gt; [3,] -0.002455612</span>
 <span class="co">#&gt; [4,] -0.006362295</span>
 <span class="co">#&gt; [5,]  0.010231784</span>
-<span class="co">#&gt; [6,]  0.022865996</span>
-</pre></div>
+<span class="co">#&gt; [6,]  0.022865996</span></code></pre></div>
 </div>
 <div id="master-prep-data-function" class="section level1">
 <h1 class="hasAnchor">
 <a href="#master-prep-data-function" class="anchor"></a>Master Prep Data Function</h1>
 <p>The function below creates and organize elements that are then fitted internally into the <code>metafor</code> package. Below we fitted fixed and random-effects models and extracted some more detail information from objects that are not directly output by the functions. First, we see results under fixed-effect models.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="kw">input_metafor</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prep_data.html">prep_data</a></span>(<span class="kw">becker09</span>, <span class="kw">becker09</span><span class="op">$</span><span class="kw">N</span>, type = <span class="st">'weighted'</span>, missing = <span class="fl">FALSE</span>, 
-                           variable_names = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'Cognitive_Performance'</span>, <span class="st">'Somatic_Performance'</span>,
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">input_metafor</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prep_data.html">prep_data</a></span><span class="op">(</span><span class="va">becker09</span>, <span class="va">becker09</span><span class="op">$</span><span class="va">N</span>, type <span class="op">=</span> <span class="st">'weighted'</span>, missing <span class="op">=</span> <span class="cn">FALSE</span>, 
+                           variable_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Cognitive_Performance'</span>, <span class="st">'Somatic_Performance'</span>,
                                               <span class="st">'Selfconfidence_Performance'</span>, 
                                               <span class="st">'Somatic_Cognitive'</span>,
                                               <span class="st">'Selfconfidence_Cognitive'</span>,
-                                              <span class="st">'Selfconfidence_Somatic'</span>),
-                           ID = <span class="st">'ID'</span>)
-<span class="kw">fixed_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_model.html">fit_model</a></span>(data = <span class="kw">input_metafor</span>, effect_size = <span class="st">'yi'</span>, 
-                         var_cor = <span class="st">'V'</span>, moderators = <span class="op">~</span> <span class="op">-</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw">outcome</span>), 
-                         random_params = <span class="kw">NULL</span>)
+                                              <span class="st">'Selfconfidence_Somatic'</span><span class="op">)</span>,
+                           ID <span class="op">=</span> <span class="st">'ID'</span><span class="op">)</span>
+<span class="va">fixed_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_model.html">fit_model</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">input_metafor</span>, effect_size <span class="op">=</span> <span class="st">'yi'</span>, 
+                         var_cor <span class="op">=</span> <span class="st">'V'</span>, moderators <span class="op">=</span> <span class="op">~</span> <span class="op">-</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">outcome</span><span class="op">)</span>, 
+                         random_params <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
 <span class="co">#&gt; Warning: Model does not contain an '~ inner | outer' term, so 'struct' argument</span>
 <span class="co">#&gt; is disregaded.</span>
 <span class="co"># below the model_out_fixed will extract some of the info but I am also extracting some here</span>
-<span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="kw">fixed_model</span><span class="op">$</span><span class="kw">b</span>, <span class="fl">3</span>) <span class="co"># fixed effect estimates</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">fixed_model</span><span class="op">$</span><span class="va">b</span>, <span class="fl">3</span><span class="op">)</span> <span class="co"># fixed effect estimates</span>
 <span class="co">#&gt;                    [,1]</span>
 <span class="co">#&gt; factor(outcome)1 -0.102</span>
 <span class="co">#&gt; factor(outcome)2 -0.177</span>
@@ -274,7 +267,7 @@
 <span class="co">#&gt; factor(outcome)4  0.519</span>
 <span class="co">#&gt; factor(outcome)5 -0.416</span>
 <span class="co">#&gt; factor(outcome)6 -0.414</span>
-<span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="kw">fixed_model</span><span class="op">$</span><span class="kw">vb</span>, <span class="fl">5</span>) <span class="co"># fixed effect COV</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">fixed_model</span><span class="op">$</span><span class="va">vb</span>, <span class="fl">5</span><span class="op">)</span> <span class="co"># fixed effect COV</span>
 <span class="co">#&gt;                  factor(outcome)1 factor(outcome)2 factor(outcome)3</span>
 <span class="co">#&gt; factor(outcome)1          0.00171          0.00086         -0.00060</span>
 <span class="co">#&gt; factor(outcome)2          0.00086          0.00164         -0.00057</span>
@@ -289,7 +282,7 @@
 <span class="co">#&gt; factor(outcome)4          0.00093         -0.00033         -0.00033</span>
 <span class="co">#&gt; factor(outcome)5         -0.00033          0.00120          0.00054</span>
 <span class="co">#&gt; factor(outcome)6         -0.00033          0.00054          0.00120</span>
-<span class="kw">fixed_model</span> <span class="co"># forthe Q and df </span>
+<span class="va">fixed_model</span> <span class="co"># forthe Q and df </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Multivariate Meta-Analysis Model (k = 48; method: REML)</span>
 <span class="co">#&gt; </span>
@@ -312,17 +305,16 @@
 <span class="co">#&gt; factor(outcome)6   -0.4144  0.0346  -11.9675  &lt;.0001  -0.4823  -0.3466  *** </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; ---</span>
-<span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
-</pre></div>
+<span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></code></pre></div>
 <p>Now we fit a random-effects model and extract some objects from this output.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="kw">random_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_model.html">fit_model</a></span>(data = <span class="kw">input_metafor</span>, effect_size = <span class="st">'yi'</span>, 
-                          var_cor = <span class="st">'V'</span>, moderators = <span class="op">~</span> <span class="op">-</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw">outcome</span>), 
-                          random_params = <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw">outcome</span>) <span class="op">|</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw">study</span>))
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">random_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_model.html">fit_model</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">input_metafor</span>, effect_size <span class="op">=</span> <span class="st">'yi'</span>, 
+                          var_cor <span class="op">=</span> <span class="st">'V'</span>, moderators <span class="op">=</span> <span class="op">~</span> <span class="op">-</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">outcome</span><span class="op">)</span>, 
+                          random_params <span class="op">=</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">outcome</span><span class="op">)</span> <span class="op">|</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">study</span><span class="op">)</span><span class="op">)</span>
 <span class="co"># below the model_out_random will extract some of the info but I am also extracting some here</span>
-<span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="kw">random_model</span><span class="op">$</span><span class="kw">tau2</span>, <span class="fl">3</span>) <span class="co"># between studies variance </span>
+<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">random_model</span><span class="op">$</span><span class="va">tau2</span>, <span class="fl">3</span><span class="op">)</span> <span class="co"># between studies variance </span>
 <span class="co">#&gt; [1] 0.132 0.044 0.042 0.001 0.006 0.004</span>
-<span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="kw">random_model</span><span class="op">$</span><span class="kw">b</span>, <span class="fl">3</span>) <span class="co"># random effect estimate</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">random_model</span><span class="op">$</span><span class="va">b</span>, <span class="fl">3</span><span class="op">)</span> <span class="co"># random effect estimate</span>
 <span class="co">#&gt;                    [,1]</span>
 <span class="co">#&gt; factor(outcome)1 -0.098</span>
 <span class="co">#&gt; factor(outcome)2 -0.176</span>
@@ -330,7 +322,7 @@
 <span class="co">#&gt; factor(outcome)4  0.527</span>
 <span class="co">#&gt; factor(outcome)5 -0.418</span>
 <span class="co">#&gt; factor(outcome)6 -0.401</span>
-<span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="kw">random_model</span><span class="op">$</span><span class="kw">vb</span>, <span class="fl">5</span>) <span class="co"># random effect Cov</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">random_model</span><span class="op">$</span><span class="va">vb</span>, <span class="fl">5</span><span class="op">)</span> <span class="co"># random effect Cov</span>
 <span class="co">#&gt;                  factor(outcome)1 factor(outcome)2 factor(outcome)3</span>
 <span class="co">#&gt; factor(outcome)1          0.01898          0.01084         -0.00476</span>
 <span class="co">#&gt; factor(outcome)2          0.01084          0.00743         -0.00282</span>
@@ -344,22 +336,21 @@
 <span class="co">#&gt; factor(outcome)3         -0.00095          0.00123         -0.00180</span>
 <span class="co">#&gt; factor(outcome)4          0.00111         -0.00053         -0.00002</span>
 <span class="co">#&gt; factor(outcome)5         -0.00053          0.00211          0.00020</span>
-<span class="co">#&gt; factor(outcome)6         -0.00002          0.00020          0.00175</span>
-</pre></div>
+<span class="co">#&gt; factor(outcome)6         -0.00002          0.00020          0.00175</span></code></pre></div>
 </div>
 <div id="extract-model-data" class="section level1">
 <h1 class="hasAnchor">
 <a href="#extract-model-data" class="anchor"></a>Extract model data</h1>
 <p>These are the results under random effect models. This is what the typical output for the mode <code>extract_model</code>function for fixed-effect model looks like.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="kw">model_out_fixed</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extract_model.html">extract_model</a></span>(<span class="kw">fixed_model</span>, 
-                                 variable_names = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'Cognitive_Performance'</span>,
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">model_out_fixed</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extract_model.html">extract_model</a></span><span class="op">(</span><span class="va">fixed_model</span>, 
+                                 variable_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Cognitive_Performance'</span>,
                                                     <span class="st">'Somatic_Performance'</span>,
                                                     <span class="st">'Selfconfidence_Performance'</span>, 
                                                     <span class="st">'Somatic_Cognitive'</span>,
                                                     <span class="st">'Selfconfidence_Cognitive'</span>,
-                                                    <span class="st">'Selfconfidence_Somatic'</span>))
-<span class="kw">model_out_fixed</span> 
+                                                    <span class="st">'Selfconfidence_Somatic'</span><span class="op">)</span><span class="op">)</span>
+<span class="va">model_out_fixed</span> 
 <span class="co">#&gt; $beta_matrix</span>
 <span class="co">#&gt;                Performance  Cognitive    Somatic Selfconfidence</span>
 <span class="co">#&gt; Performance      1.0000000 -0.1020105 -0.1773601      0.3622203</span>
@@ -387,28 +378,27 @@
 <span class="co">#&gt; [1] 0</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $rho</span>
-<span class="co">#&gt; [1] 0</span>
-</pre></div>
+<span class="co">#&gt; [1] 0</span></code></pre></div>
 <p>For the random-effect, we extract several more objects from the <code>extract_model</code>function. We can also build a correlation matrix of the <span class="math inline">\(\hat{\tau}^2\)</span> as well.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="kw">model_out_random</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extract_model.html">extract_model</a></span>(<span class="kw">random_model</span>, 
-                                  variable_names = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'Cognitive_Performance'</span>,
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">model_out_random</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extract_model.html">extract_model</a></span><span class="op">(</span><span class="va">random_model</span>, 
+                                  variable_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Cognitive_Performance'</span>,
                                                      <span class="st">'Somatic_Performance'</span>,
                                                      <span class="st">'Selfconfidence_Performance'</span>, 
                                                      <span class="st">'Somatic_Cognitive'</span>,
                                                      <span class="st">'Selfconfidence_Cognitive'</span>,
-                                                     <span class="st">'Selfconfidence_Somatic'</span>))
-<span class="kw">Rho</span> <span class="op">&lt;-</span> <span class="kw">model_out_random</span><span class="op">$</span><span class="kw">rho</span> 
-<span class="kw">Tau2</span> <span class="op">&lt;-</span> <span class="kw">model_out_random</span><span class="op">$</span><span class="kw">tau</span>
+                                                     <span class="st">'Selfconfidence_Somatic'</span><span class="op">)</span><span class="op">)</span>
+<span class="va">Rho</span> <span class="op">&lt;-</span> <span class="va">model_out_random</span><span class="op">$</span><span class="va">rho</span> 
+<span class="va">Tau2</span> <span class="op">&lt;-</span> <span class="va">model_out_random</span><span class="op">$</span><span class="va">tau</span>
 <span class="co">#------------------</span>
 <span class="co"># tau matrix</span>
 <span class="co">#------------------</span>
-<span class="kw">rho_t</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/pkg/corpcor/man/smtools.html">vec2sm</a></span>(<span class="kw">Rho</span>, diag = <span class="fl">FALSE</span>)
-<span class="kw">diag</span> <span class="op">&lt;-</span> <span class="fl">1</span>
-<span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span>(<span class="kw">rho_t</span>) <span class="op">&lt;-</span> <span class="kw">diag</span>
-<span class="kw">tdiag</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span>(<span class="kw">Tau2</span>))
-<span class="kw">taumat</span> <span class="op">&lt;-</span> <span class="kw">tdiag</span> <span class="op">%*%</span> <span class="kw">rho_t</span> <span class="op">%*%</span> <span class="kw">tdiag</span>
-<span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="kw">taumat</span>, <span class="fl">3</span>)
+<span class="va">rho_t</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/pkg/corpcor/man/smtools.html" class="external-link">vec2sm</a></span><span class="op">(</span><span class="va">Rho</span>, diag <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="va">diag</span> <span class="op">&lt;-</span> <span class="fl">1</span>
+<span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="va">rho_t</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">diag</span>
+<span class="va">tdiag</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">Tau2</span><span class="op">)</span><span class="op">)</span>
+<span class="va">taumat</span> <span class="op">&lt;-</span> <span class="va">tdiag</span> <span class="op">%*%</span> <span class="va">rho_t</span> <span class="op">%*%</span> <span class="va">tdiag</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">taumat</span>, <span class="fl">3</span><span class="op">)</span>
 <span class="co">#&gt;        [,1]   [,2]   [,3]   [,4]   [,5]   [,6]</span>
 <span class="co">#&gt; [1,]  0.132  0.076 -0.031 -0.005  0.007  0.005</span>
 <span class="co">#&gt; [2,]  0.076  0.044 -0.042 -0.005 -0.010  0.008</span>
@@ -416,27 +406,28 @@
 <span class="co">#&gt; [4,] -0.005 -0.005 -0.004  0.001 -0.003  0.002</span>
 <span class="co">#&gt; [5,]  0.007 -0.010  0.002 -0.003  0.006 -0.002</span>
 <span class="co">#&gt; [6,]  0.005  0.008  0.001  0.002 -0.002  0.004</span>
-<span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cov2cor</a></span>(<span class="kw">taumat</span>),<span class="fl">2</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cov2cor</a></span><span class="op">(</span><span class="va">taumat</span><span class="op">)</span>,<span class="fl">2</span><span class="op">)</span>
 <span class="co">#&gt;       [,1]  [,2]  [,3]  [,4]  [,5]  [,6]</span>
 <span class="co">#&gt; [1,]  1.00  1.00 -0.42 -0.39  0.23  0.20</span>
 <span class="co">#&gt; [2,]  1.00  1.00 -0.98 -0.63 -0.59  0.59</span>
 <span class="co">#&gt; [3,] -0.42 -0.98  1.00 -0.52  0.10  0.06</span>
 <span class="co">#&gt; [4,] -0.39 -0.63 -0.52  1.00 -0.94  0.99</span>
 <span class="co">#&gt; [5,]  0.23 -0.59  0.10 -0.94  1.00 -0.49</span>
-<span class="co">#&gt; [6,]  0.20  0.59  0.06  0.99 -0.49  1.00</span>
-</pre></div>
+<span class="co">#&gt; [6,]  0.20  0.59  0.06  0.99 -0.49  1.00</span></code></pre></div>
 </div>
 <div id="fit-model-with-lavaan" class="section level1">
 <h1 class="hasAnchor">
 <a href="#fit-model-with-lavaan" class="anchor"></a>Fit model with lavaan</h1>
 <p>Now, we are ready to input the average correlation matrix and its variance covariance matrix into the lavaan package and our own function to appropriate estimate SE via the multivariate delta method.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="kw">model</span> <span class="op">&lt;-</span> <span class="st">"## Regression paths
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">model</span> <span class="op">&lt;-</span> <span class="st">"## Regression paths
 Performance ~ Cognitive + Somatic + Selfconfidence
 Selfconfidence ~ Cognitive + Somatic
-"</span>odel path_output <span class="op">&lt;-</span> <span class="fu"><a href="../reference/path_model.html">path_model</a></span>(data = <span class="kw">model_out_random</span>, model = <span class="kw">model</span>, 
-                          num_obs = <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw">becker09</span><span class="op">$</span><span class="kw">N</span>))
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="kw">path_output</span>)
+"</span>
+
+<span class="va">path_output</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/path_model.html">path_model</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">model_out_random</span>, model <span class="op">=</span> <span class="va">model</span>, 
+                          num_obs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">becker09</span><span class="op">$</span><span class="va">N</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">path_output</span><span class="op">)</span>
 <span class="co">#&gt; Average Correlation Matrix: </span>
 <span class="co">#&gt;                Performance   Cognitive    Somatic Selfconfidence</span>
 <span class="co">#&gt; Performance     1.00000000 -0.09773331 -0.1755029      0.3186775</span>
@@ -469,63 +460,60 @@ Selfconfidence ~ Cognitive + Somatic
 <span class="co">#&gt; Somatic -&gt; Performance             0.06352263     -1.4579062 1.448664e-01</span>
 <span class="co">#&gt; Selfconfidence -&gt; Performance      0.10216547      3.0959091 1.962105e-03</span>
 <span class="co">#&gt; Cognitive -&gt; Selfconfidence        0.03848324     -7.4249929 1.127860e-13</span>
-<span class="co">#&gt; Somatic -&gt; Selfconfidence          0.05226122     -4.7845698 1.713539e-06</span>
-</pre></div>
+<span class="co">#&gt; Somatic -&gt; Selfconfidence          0.05226122     -4.7845698 1.713539e-06</span></code></pre></div>
 </div>
 <div id="team" class="section level1">
 <h1 class="hasAnchor">
 <a href="#team" class="anchor"></a>Team</h1>
 <p>We now subset the data to obtain results only for the studies that reported on Team sports.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="kw">becker09_T</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(<span class="kw">becker09</span>, <span class="kw">becker09</span><span class="op">$</span><span class="kw">Team</span> <span class="op">==</span> <span class="st">"T"</span>)
-</pre></div>
-<div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="kw">becker09_list2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/df_to_corr.html">df_to_corr</a></span>(<span class="kw">becker09_T</span>, 
-                             variables = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'Cognitive_Performance'</span>,
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">becker09_T</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">becker09</span>, <span class="va">becker09</span><span class="op">$</span><span class="va">Team</span> <span class="op">==</span> <span class="st">"T"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">becker09_list2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/df_to_corr.html">df_to_corr</a></span><span class="op">(</span><span class="va">becker09_T</span>, 
+                             variables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Cognitive_Performance'</span>,
                                            <span class="st">'Somatic_Performance'</span>,
                                            <span class="st">'Selfconfidence_Performance'</span>, 
                                            <span class="st">'Somatic_Cognitive'</span>,
                                            <span class="st">'Selfconfidence_Cognitive'</span>,
-                                           <span class="st">'Selfconfidence_Somatic'</span>),
-                             ID = <span class="st">'ID'</span>)
-</pre></div>
-<div class="sourceCode" id="cb11"><pre class="downlit">
-<span class="kw">input_metafor2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prep_data.html">prep_data</a></span>(<span class="kw">becker09_T</span>, <span class="kw">becker09_T</span><span class="op">$</span><span class="kw">N</span>, type = <span class="st">'weighted'</span>, missing = <span class="fl">FALSE</span>, 
-                            variable_names = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'Cognitive_Performance'</span>, <span class="st">'Somatic_Performance'</span>,
+                                           <span class="st">'Selfconfidence_Somatic'</span><span class="op">)</span>,
+                             ID <span class="op">=</span> <span class="st">'ID'</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">input_metafor2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prep_data.html">prep_data</a></span><span class="op">(</span><span class="va">becker09_T</span>, <span class="va">becker09_T</span><span class="op">$</span><span class="va">N</span>, type <span class="op">=</span> <span class="st">'weighted'</span>, missing <span class="op">=</span> <span class="cn">FALSE</span>, 
+                            variable_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Cognitive_Performance'</span>, <span class="st">'Somatic_Performance'</span>,
                                                <span class="st">'Selfconfidence_Performance'</span>, 
                                                <span class="st">'Somatic_Cognitive'</span>,
                                                <span class="st">'Selfconfidence_Cognitive'</span>,
-                                               <span class="st">'Selfconfidence_Somatic'</span>),
-                            ID = <span class="st">'ID'</span>)
+                                               <span class="st">'Selfconfidence_Somatic'</span><span class="op">)</span>,
+                            ID <span class="op">=</span> <span class="st">'ID'</span><span class="op">)</span>
 
-<span class="kw">random_model2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_model.html">fit_model</a></span>(data = <span class="kw">input_metafor2</span>, effect_size = <span class="st">'yi'</span>, 
-                           var_cor = <span class="st">'V'</span>, moderators = <span class="op">~</span> <span class="op">-</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw">outcome</span>), 
-                           random_params = <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw">outcome</span>) <span class="op">|</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw">study</span>))
-</pre></div>
+<span class="va">random_model2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_model.html">fit_model</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">input_metafor2</span>, effect_size <span class="op">=</span> <span class="st">'yi'</span>, 
+                           var_cor <span class="op">=</span> <span class="st">'V'</span>, moderators <span class="op">=</span> <span class="op">~</span> <span class="op">-</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">outcome</span><span class="op">)</span>, 
+                           random_params <span class="op">=</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">outcome</span><span class="op">)</span> <span class="op">|</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">study</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="extract-model-data-1" class="section level1">
 <h1 class="hasAnchor">
 <a href="#extract-model-data-1" class="anchor"></a>Extract model data</h1>
-<div class="sourceCode" id="cb12"><pre class="downlit">
-<span class="kw">model_out_random2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extract_model.html">extract_model</a></span>(<span class="kw">random_model2</span>, 
-                                   variable_names = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'Cognitive_Performance'</span>,
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">model_out_random2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extract_model.html">extract_model</a></span><span class="op">(</span><span class="va">random_model2</span>, 
+                                   variable_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Cognitive_Performance'</span>,
                                                       <span class="st">'Somatic_Performance'</span>,
                                                       <span class="st">'Selfconfidence_Performance'</span>, 
                                                       <span class="st">'Somatic_Cognitive'</span>,
                                                       <span class="st">'Selfconfidence_Cognitive'</span>,
-                                                      <span class="st">'Selfconfidence_Somatic'</span>))
-</pre></div>
+                                                      <span class="st">'Selfconfidence_Somatic'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="fit-model-with-lavaan-1" class="section level1">
 <h1 class="hasAnchor">
 <a href="#fit-model-with-lavaan-1" class="anchor"></a>Fit model with lavaan</h1>
-<div class="sourceCode" id="cb13"><pre class="downlit">
-<span class="kw">model</span> <span class="op">&lt;-</span> <span class="st">"## Regression paths
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">model</span> <span class="op">&lt;-</span> <span class="st">"## Regression paths
 Performance ~ Cognitive + Somatic + Selfconfidence
 Selfconfidence ~ Cognitive + Somatic
-"</span>odel path_output2 <span class="op">&lt;-</span> <span class="fu"><a href="../reference/path_model.html">path_model</a></span>(data = <span class="kw">model_out_random2</span>, model = <span class="kw">model</span>, 
-                             num_obs = <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw">becker09_T</span><span class="op">$</span><span class="kw">N</span>))
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="kw">path_output2</span>)
+"</span>
+
+<span class="va">path_output2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/path_model.html">path_model</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">model_out_random2</span>, model <span class="op">=</span> <span class="va">model</span>, 
+                             num_obs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">becker09_T</span><span class="op">$</span><span class="va">N</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">path_output2</span><span class="op">)</span>
 <span class="co">#&gt; Average Correlation Matrix: </span>
 <span class="co">#&gt;                Performance  Cognitive    Somatic Selfconfidence</span>
 <span class="co">#&gt; Performance      1.0000000 -0.1245062 -0.1852845      0.2328835</span>
@@ -558,66 +546,59 @@ Selfconfidence ~ Cognitive + Somatic
 <span class="co">#&gt; Somatic -&gt; Performance             0.08357853      -1.595697 1.105565e-01</span>
 <span class="co">#&gt; Selfconfidence -&gt; Performance      0.16481574       1.200753 2.298471e-01</span>
 <span class="co">#&gt; Cognitive -&gt; Selfconfidence        0.06463990      -4.377851 1.198553e-05</span>
-<span class="co">#&gt; Somatic -&gt; Selfconfidence          0.12485600      -1.509787 1.310977e-01</span>
-</pre></div>
+<span class="co">#&gt; Somatic -&gt; Selfconfidence          0.12485600      -1.509787 1.310977e-01</span></code></pre></div>
 </div>
 <div id="individual" class="section level1">
 <h1 class="hasAnchor">
 <a href="#individual" class="anchor"></a>Individual</h1>
 <p>Similarly, we now subset the data to obtain results only for the studies that reported on Individual sports.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit">
-<span class="kw">becker09_I</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(<span class="kw">becker09</span>, <span class="kw">becker09</span><span class="op">$</span><span class="kw">Team</span> <span class="op">==</span> <span class="st">"I"</span>)
-</pre></div>
-<div class="sourceCode" id="cb15"><pre class="downlit">
-<span class="kw">becker09_list3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/df_to_corr.html">df_to_corr</a></span>(<span class="kw">becker09_I</span>, 
-                             variables = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'Cognitive_Performance'</span>,
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">becker09_I</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">becker09</span>, <span class="va">becker09</span><span class="op">$</span><span class="va">Team</span> <span class="op">==</span> <span class="st">"I"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">becker09_list3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/df_to_corr.html">df_to_corr</a></span><span class="op">(</span><span class="va">becker09_I</span>, 
+                             variables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Cognitive_Performance'</span>,
                                            <span class="st">'Somatic_Performance'</span>,
                                            <span class="st">'Selfconfidence_Performance'</span>, 
                                            <span class="st">'Somatic_Cognitive'</span>,
                                            <span class="st">'Selfconfidence_Cognitive'</span>,
-                                           <span class="st">'Selfconfidence_Somatic'</span>),
-                             ID = <span class="st">'ID'</span>)
-</pre></div>
-<div class="sourceCode" id="cb16"><pre class="downlit">
-<span class="kw">input_metafor3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prep_data.html">prep_data</a></span>(<span class="kw">becker09_I</span>, <span class="kw">becker09_I</span><span class="op">$</span><span class="kw">N</span>, type = <span class="st">'weighted'</span>, missing = <span class="fl">FALSE</span>,
-                            variable_names = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'Cognitive_Performance'</span>, <span class="st">'Somatic_Performance'</span>,
+                                           <span class="st">'Selfconfidence_Somatic'</span><span class="op">)</span>,
+                             ID <span class="op">=</span> <span class="st">'ID'</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">input_metafor3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prep_data.html">prep_data</a></span><span class="op">(</span><span class="va">becker09_I</span>, <span class="va">becker09_I</span><span class="op">$</span><span class="va">N</span>, type <span class="op">=</span> <span class="st">'weighted'</span>, missing <span class="op">=</span> <span class="cn">FALSE</span>,
+                            variable_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Cognitive_Performance'</span>, <span class="st">'Somatic_Performance'</span>,
                                                <span class="st">'Selfconfidence_Performance'</span>, 
                                                <span class="st">'Somatic_Cognitive'</span>,
                                                <span class="st">'Selfconfidence_Cognitive'</span>,
-                                               <span class="st">'Selfconfidence_Somatic'</span>),
-                            ID = <span class="st">'ID'</span>)
+                                               <span class="st">'Selfconfidence_Somatic'</span><span class="op">)</span>,
+                            ID <span class="op">=</span> <span class="st">'ID'</span><span class="op">)</span>
 
-<span class="kw">random_model3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_model.html">fit_model</a></span>(data = <span class="kw">input_metafor3</span>, effect_size = <span class="st">'yi'</span>, 
-                           var_cor = <span class="st">'V'</span>, moderators = <span class="op">~</span> <span class="op">-</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw">outcome</span>), 
-                           random_params = <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw">outcome</span>) <span class="op">|</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw">study</span>))
-</pre></div>
+<span class="va">random_model3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_model.html">fit_model</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">input_metafor3</span>, effect_size <span class="op">=</span> <span class="st">'yi'</span>, 
+                           var_cor <span class="op">=</span> <span class="st">'V'</span>, moderators <span class="op">=</span> <span class="op">~</span> <span class="op">-</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">outcome</span><span class="op">)</span>, 
+                           random_params <span class="op">=</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">outcome</span><span class="op">)</span> <span class="op">|</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">study</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="extract-model-data-2" class="section level1">
 <h1 class="hasAnchor">
 <a href="#extract-model-data-2" class="anchor"></a>Extract model data</h1>
-<div class="sourceCode" id="cb17"><pre class="downlit">
-<span class="kw">model_out_random3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extract_model.html">extract_model</a></span>(<span class="kw">random_model3</span>, 
-                                   variable_names = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'Cognitive_Performance'</span>,
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">model_out_random3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extract_model.html">extract_model</a></span><span class="op">(</span><span class="va">random_model3</span>, 
+                                   variable_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Cognitive_Performance'</span>,
                                                       <span class="st">'Somatic_Performance'</span>,
                                                       <span class="st">'Selfconfidence_Performance'</span>, 
                                                       <span class="st">'Somatic_Cognitive'</span>,
                                                       <span class="st">'Selfconfidence_Cognitive'</span>,
-                                                      <span class="st">'Selfconfidence_Somatic'</span>))
-</pre></div>
+                                                      <span class="st">'Selfconfidence_Somatic'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="fit-model-with-lavaan-2" class="section level1">
 <h1 class="hasAnchor">
 <a href="#fit-model-with-lavaan-2" class="anchor"></a>Fit model with lavaan</h1>
-<div class="sourceCode" id="cb18"><pre class="downlit">
-<span class="kw">model</span> <span class="op">&lt;-</span> <span class="st">"## Regression paths
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">model</span> <span class="op">&lt;-</span> <span class="st">"## Regression paths
 Performance ~ Cognitive + Somatic + Selfconfidence
 Selfconfidence ~ Cognitive + Somatic"</span>
-Performance ~ Cognitive + Somatic + Selfconfidence
-Selfconfidence ~ Cognitive + Somatic"
 
-<span class="kw">path_output3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/path_model.html">path_model</a></span>(data = <span class="kw">model_out_random3</span>, model = <span class="kw">model</span>, 
-                           num_obs = <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw">becker09_I</span><span class="op">$</span><span class="kw">N</span>))
-<span class="kw">lavaan</span>::<span class="fu">summary</span>(<span class="kw">path_output3</span>)
+<span class="va">path_output3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/path_model.html">path_model</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">model_out_random3</span>, model <span class="op">=</span> <span class="va">model</span>, 
+                           num_obs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">becker09_I</span><span class="op">$</span><span class="va">N</span><span class="op">)</span><span class="op">)</span>
+<span class="fu">lavaan</span><span class="fu">::</span><span class="fu">summary</span><span class="op">(</span><span class="va">path_output3</span><span class="op">)</span>
 <span class="co">#&gt; Average Correlation Matrix: </span>
 <span class="co">#&gt;                Performance   Cognitive    Somatic Selfconfidence</span>
 <span class="co">#&gt; Performance     1.00000000 -0.08366167 -0.1828913      0.3375315</span>
@@ -649,16 +630,15 @@ Selfconfidence ~ Cognitive + Somatic"
 <span class="co">#&gt; Somatic -&gt; Performance             0.13567901     -0.4334729 6.646713e-01</span>
 <span class="co">#&gt; Selfconfidence -&gt; Performance      0.14685898      2.4583311 1.395844e-02</span>
 <span class="co">#&gt; Cognitive -&gt; Selfconfidence        0.06212761     -4.6968827 2.641621e-06</span>
-<span class="co">#&gt; Somatic -&gt; Selfconfidence          0.08749570     -4.0514672 5.089747e-05</span>
-</pre></div>
+<span class="co">#&gt; Somatic -&gt; Selfconfidence          0.08749570     -4.0514672 5.089747e-05</span></code></pre></div>
 </div>
 <div id="partial-correlation-matrix" class="section level1">
 <h1 class="hasAnchor">
 <a href="#partial-correlation-matrix" class="anchor"></a>Partial correlation matrix</h1>
 <p>Here we compute the synthetic partial correlation from the average correlation matrix.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit">
-<span class="co"># partial corr matrix</span>
-<span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/corpcor/man/cor2pcor.html">cor2pcor</a></span>(<span class="kw">model_out_random</span><span class="op">$</span><span class="kw">beta_matrix</span>),<span class="fl">3</span>)
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># partial corr matrix</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/corpcor/man/cor2pcor.html" class="external-link">cor2pcor</a></span><span class="op">(</span><span class="va">model_out_random</span><span class="op">$</span><span class="va">beta_matrix</span><span class="op">)</span>,<span class="fl">3</span><span class="op">)</span>
 <span class="co">#&gt;        [,1]   [,2]   [,3]   [,4]</span>
 <span class="co">#&gt; [1,]  1.000  0.072 -0.081  0.284</span>
 <span class="co">#&gt; [2,]  0.072  1.000  0.436 -0.274</span>
@@ -666,40 +646,39 @@ Selfconfidence ~ Cognitive + Somatic"
 <span class="co">#&gt; [4,]  0.284 -0.274 -0.201  1.000</span>
 
 <span class="co"># var-cov matrix of partials</span>
-<span class="kw">Psy</span> <span class="op">&lt;-</span> <span class="kw">random_model</span><span class="op">$</span><span class="kw">vb</span>
-<span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="fu"><a href="../reference/var_path.html">var_path</a></span>(<span class="kw">model_out_random</span><span class="op">$</span><span class="kw">beta_matrix</span>, <span class="kw">Psy</span>, type = <span class="st">'pcor'</span>), <span class="fl">4</span>)
+<span class="va">Psy</span> <span class="op">&lt;-</span> <span class="va">random_model</span><span class="op">$</span><span class="va">vb</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="../reference/var_path.html">var_path</a></span><span class="op">(</span><span class="va">model_out_random</span><span class="op">$</span><span class="va">beta_matrix</span>, <span class="va">Psy</span>, type <span class="op">=</span> <span class="st">'pcor'</span><span class="op">)</span>, <span class="fl">4</span><span class="op">)</span>
 <span class="co">#&gt;         [,1]    [,2]    [,3]    [,4]    [,5]    [,6]</span>
 <span class="co">#&gt; [1,]  0.0174  0.0009  0.0046  0.0005 -0.0073  0.0018</span>
 <span class="co">#&gt; [2,]  0.0009  0.0029  0.0030 -0.0006  0.0004 -0.0016</span>
 <span class="co">#&gt; [3,]  0.0046  0.0030  0.0078 -0.0013 -0.0002 -0.0022</span>
 <span class="co">#&gt; [4,]  0.0005 -0.0006 -0.0013  0.0016 -0.0003  0.0012</span>
 <span class="co">#&gt; [5,] -0.0073  0.0004 -0.0002 -0.0003  0.0058 -0.0027</span>
-<span class="co">#&gt; [6,]  0.0018 -0.0016 -0.0022  0.0012 -0.0027  0.0035</span>
-</pre></div>
+<span class="co">#&gt; [6,]  0.0018 -0.0016 -0.0022  0.0012 -0.0027  0.0035</span></code></pre></div>
 </div>
 <div id="partial-from-uni-approach" class="section level1">
 <h1 class="hasAnchor">
 <a href="#partial-from-uni-approach" class="anchor"></a>Partial from uni approach</h1>
 <p>Here we work with partial correlation for each study and then synthesize that information.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit">
-<span class="co">#---------------------------------------------------------------------</span>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">#---------------------------------------------------------------------</span>
 <span class="co"># Create a data set with 8 complete studies</span>
 <span class="co">#---------------------------------------------------------------------</span>
-<span class="kw">R</span> <span class="op">&lt;-</span>  <span class="kw">becker09_list</span>
-<span class="kw">R</span><span class="op">$</span><span class="st">"6"</span> <span class="op">&lt;-</span> <span class="kw">NULL</span>
-<span class="kw">R</span><span class="op">$</span><span class="st">"17"</span> <span class="op">&lt;-</span> <span class="kw">NULL</span>
-<span class="kw">n</span> <span class="op">&lt;-</span> <span class="kw">becker09</span><span class="op">$</span><span class="kw">N</span>[<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="op">-</span><span class="fl">3</span>, <span class="op">-</span><span class="fl">5</span>)]
+<span class="va">R</span> <span class="op">&lt;-</span>  <span class="va">becker09_list</span>
+<span class="va">R</span><span class="op">$</span><span class="st">"6"</span> <span class="op">&lt;-</span> <span class="cn">NULL</span>
+<span class="va">R</span><span class="op">$</span><span class="st">"17"</span> <span class="op">&lt;-</span> <span class="cn">NULL</span>
+<span class="va">n</span> <span class="op">&lt;-</span> <span class="va">becker09</span><span class="op">$</span><span class="va">N</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3</span>, <span class="op">-</span><span class="fl">5</span><span class="op">)</span><span class="op">]</span>
 <span class="co">#------------------------------------------------------------------</span>
 <span class="co"># first replace NA by zeros</span>
-<span class="kw">RR</span> <span class="op">&lt;-</span> <span class="kw">R</span>                           <span class="co"># redifine list</span>
+<span class="va">RR</span> <span class="op">&lt;-</span> <span class="va">R</span>                           <span class="co"># redifine list</span>
 
-<span class="kw">PR</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="kw">RR</span>, <span class="kw">cor2pcor</span>)
-<span class="kw">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="kw">PR</span>, <span class="st">'[['</span>, <span class="fl">4</span>))
-<span class="kw">var_pr</span> <span class="op">&lt;-</span> (<span class="fl">1</span><span class="op">-</span><span class="kw">pr</span><span class="op">^</span><span class="fl">2</span>)<span class="op">^</span><span class="fl">2</span> <span class="op">/</span> (<span class="kw">n</span> <span class="op">-</span> <span class="fl">3</span> <span class="op">-</span><span class="fl">1</span>)
+<span class="va">PR</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">RR</span>, <span class="va">cor2pcor</span><span class="op">)</span>
+<span class="va">pr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">PR</span>, <span class="st">'[['</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span>
+<span class="va">var_pr</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">pr</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span> <span class="op">/</span> <span class="op">(</span><span class="va">n</span> <span class="op">-</span> <span class="fl">3</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span>
 <span class="co">#&gt; Warning in (1 - pr^2)^2/(n - 3 - 1): longer object length is not a multiple of</span>
 <span class="co">#&gt; shorter object length</span>
 
-<span class="fu"><a href="https://rdrr.io/pkg/metafor/man/rma.uni.html">rma.uni</a></span>(<span class="kw">pr</span>, <span class="kw">var_pr</span>)
+<span class="fu"><a href="https://wviechtb.github.io/metafor/reference/rma.uni.html" class="external-link">rma.uni</a></span><span class="op">(</span><span class="va">pr</span>, <span class="va">var_pr</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Random-Effects Model (k = 8; tau^2 estimator: REML)</span>
 <span class="co">#&gt; </span>
@@ -717,8 +696,7 @@ Selfconfidence ~ Cognitive + Somatic"
 <span class="co">#&gt;   0.2889  0.1001  2.8872  0.0039  0.0928  0.4850  ** </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; ---</span>
-<span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
-</pre></div>
+<span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></code></pre></div>
 </div>
   </div>
 
@@ -733,11 +711,13 @@ Selfconfidence ~ Cognitive + Somatic"
 
 
       <footer><div class="copyright">
-  <p>Developed by Brandon LeBeau, Ariel M. Aloe.</p>
+  <p></p>
+<p>Developed by Brandon LeBeau, Ariel M. Aloe.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>
@@ -745,6 +725,8 @@ Selfconfidence ~ Cognitive + Somatic"
 
   
 
+
+  
 
   </body>
 </html>
