@@ -13,7 +13,7 @@
 #' @param ID A variable name, as a character string, to use as names for the list elements.
 #'
 #' @importFrom Matrix bdiag
-#' @importFrom corpcor sm2vec
+#' @importFrom corpcor sm2vec combn
 #'
 #' @export
 prep_data <- function(data, n, type = c('average','weighted', 'simple'),
@@ -38,14 +38,14 @@ prep_data <- function(data, n, type = c('average','weighted', 'simple'),
   outcome <- as.factor(outcome)
 
   study <- sort(rep(1:length(data), length(data_vector_list[[1]])))
-  
+
   if(!is.null(variable_names)) {
     var_names <- data.frame(t(combn(colnames(becker09_list[[1]]), 2)))
     names(var_names) <- c('Variable1', 'Variable2')
     } else {
     var_names <- NULL
     }
-  
+
 
   if(missing == 'remove') {
     miss_loc <- missing_data(data_vector)
@@ -54,14 +54,14 @@ prep_data <- function(data, n, type = c('average','weighted', 'simple'),
     variance_covariance <- variance_covariance[c(miss_loc), c(miss_loc)]
     outcome <- outcome[miss_loc]
     study <- study[miss_loc]
-    
+
     if(!is.null(var_names)) {
       var_names <- var_names[miss_loc]
       }
-    
+
   }
 
-  list(data = cbind(var_names, 
+  list(data = cbind(var_names,
                     data.frame(yi = data_vector,
                          outcome = outcome,
                          study = study
