@@ -13,7 +13,8 @@
 #' @param ID A variable name, as a character string, to use as names for the list elements.
 #'
 #' @importFrom Matrix bdiag
-#' @importFrom corpcor sm2vec combn
+#' @importFrom corpcor sm2vec
+#' @importFrom utils combn
 #'
 #' @export
 prep_data <- function(data, n, type = c('average','weighted', 'simple'),
