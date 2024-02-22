@@ -40,18 +40,31 @@ fit_model <- function(data, effect_size, var_cor, weights = NULL,
 
   variance_covariance <- data[[var_cor]]
 
-  if(is.null(random_params)) {
-    metafor::rma.mv(yi = effect_size, V = variance_covariance, W = weights,
-                    mods = moderators, data = raw_data,
-                    struct = structure, intercept = intercept,
-                    test = test, method = estimation_method, ...)
+  if(is.null(weights)) {
+    if(is.null(random_params)) {
+      metafor::rma.mv(yi = effect_size, V = variance_covariance,
+                      mods = moderators, data = raw_data,
+                      struct = structure, intercept = intercept,
+                      test = test, method = estimation_method, ...)
+    } else {
+      metafor::rma.mv(yi = effect_size, V = variance_covariance,
+                      mods = moderators, random = random_params,
+                      data = raw_data, struct = structure, intercept = intercept,
+                      test = test, method = estimation_method, ...)
+    }
   } else {
-    metafor::rma.mv(yi = effect_size, V = variance_covariance, W = weights,
-                    mods = moderators, random = random_params,
-                    data = raw_data, struct = structure, intercept = intercept,
-                    test = test, method = estimation_method, ...)
+    if(is.null(random_params)) {
+      metafor::rma.mv(yi = effect_size, V = variance_covariance, W = weights,
+                      mods = moderators, data = raw_data,
+                      struct = structure, intercept = intercept,
+                      test = test, method = estimation_method, ...)
+    } else {
+      metafor::rma.mv(yi = effect_size, V = variance_covariance, W = weights,
+                      mods = moderators, random = random_params,
+                      data = raw_data, struct = structure, intercept = intercept,
+                      test = test, method = estimation_method, ...)
+    }
   }
-
 }
 
 

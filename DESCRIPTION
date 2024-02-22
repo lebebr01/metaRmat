@@ -26,4 +26,4 @@ Suggests: knitr,
     dplyr,
     lavaan
 VignetteBuilder: knitr
-RoxygenNote: 7.1.1
+RoxygenNote: 7.3.1
